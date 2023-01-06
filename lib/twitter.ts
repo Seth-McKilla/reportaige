@@ -1,6 +1,14 @@
 const apiKey = process.env.TWITTER_BEARER_TOKEN!;
 const apiUrl = "https://api.twitter.com/1.1/";
 
+export type Trend = {
+  name: string;
+  url: string;
+  promoted_content: string;
+  query: string;
+  tweet_volume: number;
+};
+
 export async function getTrendingTopics(locationId: number) {
   try {
     const response = await fetch(
@@ -12,35 +20,17 @@ export async function getTrendingTopics(locationId: number) {
       }
     );
     const data = await response.json();
-    const trends = data?.[0]?.trends;
+    const trends: Trend[] = data?.[0]?.trends;
 
-    // sort by tweet volume
-    trends.sort(
-      (a: { tweet_volume: number }, b: { tweet_volume: number }) =>
-        b.tweet_volume - a.tweet_volume
-    );
-
-    // filter out trends with no tweet volume
-    const filteredTrends = trends.filter(
-      (trend: { tweet_volume: number }) => trend.tweet_volume
-    );
-
-    // return trends with only name and tweet volume and url
-    return filteredTrends.map(
-      ({
+    // Sort by tweet volume and filter out any trends that don't have a tweet volume
+    return trends
+      .sort((a, b) => b.tweet_volume - a.tweet_volume)
+      .filter((trend) => trend.tweet_volume)
+      .map(({ name, tweet_volume, url }) => ({
         name,
         tweet_volume,
         url,
-      }: {
-        name: string;
-        tweet_volume: number;
-        url: string;
-      }) => ({
-        name,
-        tweet_volume,
-        url,
-      })
-    );
+      }));
   } catch (error) {
     console.error(error);
   }

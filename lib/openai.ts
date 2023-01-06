@@ -9,7 +9,7 @@ export default openai;
 export async function getAIJoke() {
   const response = await openai.createCompletion({
     model: "text-davinci-003",
-    prompt: "Tell me a joke.",
+    prompt: "Tell me a programming joke.",
     temperature: 0,
     max_tokens: 50,
   });

@@ -4,7 +4,6 @@ import { getTrendingTopics } from "@/lib/twitter";
 export default async function Home() {
   const joke = await getAIJoke();
   const topics = await getTrendingTopics(2459115);
-  console.log(topics);
 
   return (
     <main>
