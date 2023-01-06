@@ -1,15 +1,15 @@
 import Globe from "./Globe";
-import { getAIJoke } from "@/lib/openai";
-import { getTrendingTopics } from "@/lib/twitter";
 
 export default async function Home() {
-  const joke = await getAIJoke();
-  const topics = await getTrendingTopics(2459115);
-
   return (
     <main>
-      <h1>reportAIge</h1>
-      <p>AI generated reportage art.</p>
+      <div className="w-screen mt-10 text-center">
+        <h1 className="mb-2 text-4xl font-bold">reportAIge</h1>
+        <p>
+          AI generated reportage art based on current Twitter trends from around
+          the world.
+        </p>
+      </div>
       <Globe />
     </main>
   );

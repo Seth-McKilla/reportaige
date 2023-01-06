@@ -12,8 +12,6 @@ export default function Globe() {
     size: 0.1,
   })) as Marker[];
 
-  console.log(markers);
-
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const pointerInteracting = useRef<number | null>(null);
   const pointerInteractionMovement = useRef(0);
@@ -45,7 +43,7 @@ export default function Globe() {
       baseColor: [1, 1, 1],
       markerColor: [251 / 255, 100 / 255, 21 / 255],
       glowColor: [1.2, 1.2, 1.2],
-      markers,
+      markers: [],
       onRender: (state) => {
         state.phi = r.get();
         state.width = width * 2;
