@@ -1,128 +1,128 @@
 const cities = {
-  "tokyo": {
+  tokyo: {
     id: 1118370,
-    latitude: 35.689487,
-    longitude: 139.691706,
+    lat: 35.689487,
+    lng: 139.691706,
   },
-  "delhi": {
+  delhi: {
     id: 28743736,
-    latitude: 28.613939,
-    longitude: 77.209021,
+    lat: 28.613939,
+    lng: 77.209021,
   },
-  "shanghai": {
+  shanghai: {
     id: 2151849,
-    latitude: 31.230416,
-    longitude: 121.473701,
+    lat: 31.230416,
+    lng: 121.473701,
   },
-  "mumbai": {
+  mumbai: {
     id: 2147714,
-    latitude: 19.075984,
-    longitude: 72.877656,
+    lat: 19.075984,
+    lng: 72.877656,
   },
   "mexico-city": {
     id: 116545,
-    latitude: 19.432608,
-    longitude: -99.133208,
+    lat: 19.432608,
+    lng: -99.133208,
   },
   "sao-paulo": {
     id: 455819,
-    latitude: -23.55052,
-    longitude: -46.633309,
+    lat: -23.55052,
+    lng: -46.633309,
   },
-  "cairo": {
+  cairo: {
     id: 46611,
-    latitude: 30.04442,
-    longitude: 31.235712,
+    lat: 30.04442,
+    lng: 31.235712,
   },
-  "beijing": {
+  beijing: {
     id: 1501572,
-    latitude: 39.904202,
-    longitude: 116.407396,
+    lat: 39.904202,
+    lng: 116.407396,
   },
-  "jakarta": {
+  jakarta: {
     id: 1047378,
-    latitude: -6.208763,
-    longitude: 106.845599,
+    lat: -6.208763,
+    lng: 106.845599,
   },
   "new-york-city": {
     id: 2459115,
-    latitude: 40.712775,
-    longitude: -74.005973,
+    lat: 40.712775,
+    lng: -74.005973,
   },
   "los-angeles": {
     id: 2487956,
-    latitude: 34.052234,
-    longitude: -118.243685,
+    lat: 34.052234,
+    lng: -118.243685,
   },
-  "kolkata": {
+  kolkata: {
     id: 1468157,
-    latitude: 22.572646,
-    longitude: 88.363895,
+    lat: 22.572646,
+    lng: 88.363895,
   },
   "buenos-aires": {
     id: 468741,
-    latitude: -34.603684,
-    longitude: -58.381559,
+    lat: -34.603684,
+    lng: -58.381559,
   },
   "rio-de-janeiro": {
     id: 455827,
-    latitude: -22.906847,
-    longitude: -43.172896,
+    lat: -22.906847,
+    lng: -43.172896,
   },
-  "karachi": {
+  karachi: {
     id: 146311,
-    latitude: 24.861462,
-    longitude: 67.009939,
+    lat: 24.861462,
+    lng: 67.009939,
   },
-  "istanbul": {
+  istanbul: {
     id: 2344116,
-    latitude: 41.008238,
-    longitude: 28.978359,
+    lat: 41.008238,
+    lng: 28.978359,
   },
-  "moscow": {
+  moscow: {
     id: 2122265,
-    latitude: 55.755826,
-    longitude: 37.6173,
+    lat: 55.755826,
+    lng: 37.6173,
   },
-  "paris": {
+  paris: {
     id: 615702,
-    latitude: 48.856613,
-    longitude: 2.352222,
+    lat: 48.856613,
+    lng: 2.352222,
   },
-  "london": {
+  london: {
     id: 44418,
-    latitude: 51.507351,
-    longitude: -0.127758,
+    lat: 51.507351,
+    lng: -0.127758,
   },
-  "nagoya": {
+  nagoya: {
     id: 1116545,
-    latitude: 35.181446,
-    longitude: 136.906398,
+    lat: 35.181446,
+    lng: 136.906398,
   },
-  "chicago": {
+  chicago: {
     id: 2379574,
-    latitude: 41.878114,
-    longitude: -87.629798,
+    lat: 41.878114,
+    lng: -87.629798,
   },
-  "toronto": {
+  toronto: {
     id: 4118,
-    latitude: 43.653226,
-    longitude: -79.383184,
+    lat: 43.653226,
+    lng: -79.383184,
   },
-  "seoul": {
+  seoul: {
     id: 11526576,
-    latitude: 37.566535,
-    longitude: 126.977969,
+    lat: 37.566535,
+    lng: 126.977969,
   },
-  "sydney": {
+  sydney: {
     id: 1105779,
-    latitude: -33.86882,
-    longitude: 151.20929,
+    lat: -33.86882,
+    lng: 151.20929,
   },
-  "singapore": {
+  singapore: {
     id: 1062617,
-    latitude: 1.352083,
-    longitude: 103.819836,
+    lat: 1.352083,
+    lng: 103.819836,
   },
 };
 

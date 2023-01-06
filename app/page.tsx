@@ -1,3 +1,4 @@
+import Globe from "./Globe";
 import { getAIJoke } from "@/lib/openai";
 import { getTrendingTopics } from "@/lib/twitter";
 
@@ -7,9 +8,9 @@ export default async function Home() {
 
   return (
     <main>
-      <h1 className="grid h-screen text-4xl font-bold text-center text-gray-900 place-items-center">
-        {joke}
-      </h1>
+      <h1>reportAIge</h1>
+      <p>AI generated reportage art.</p>
+      <Globe />
     </main>
   );
 }
