@@ -8,7 +8,7 @@ type Props = {
 
 export default function CityOptionsList({ cities }: Props) {
   return (
-    <div className="flex justify-center mt-10">
+    <div className="flex justify-center mt-16">
       {Object.entries(cities).map(([city, { lat, lng }]) => (
         <button
           key={city}
