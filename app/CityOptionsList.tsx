@@ -10,12 +10,12 @@ type Props = {
 export default function CityOptionsList({ cities }: Props) {
   return (
     <div className="flex justify-center mt-16">
-      {Object.entries(cities).map(([city, { lat, lng }]) => (
+      {Object.entries(cities).map(([city, { id }]) => (
         <button
           key={city}
           className="px-4 py-2 mx-1 text-sm font-semibold text-gray-700 bg-white border border-gray-600 rounded-sm hover:bg-gray-100"
           onClick={() => {
-            console.log(lat, lng);
+            console.log(id);
           }}
         >
           {toTitleCase(city)}
