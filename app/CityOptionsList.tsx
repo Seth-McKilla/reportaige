@@ -1,6 +1,7 @@
 "use client";
 
 import type { Cities } from "@/data/cities";
+import { toTitleCase } from "@/utils/common";
 
 type Props = {
   cities: Cities;
@@ -17,7 +18,7 @@ export default function CityOptionsList({ cities }: Props) {
             console.log(lat, lng);
           }}
         >
-          {city}
+          {toTitleCase(city)}
         </button>
       ))}
     </div>
