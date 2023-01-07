@@ -50,5 +50,6 @@ const cities = {
     lng: 28.047305,
   },
 };
+export type Cities = typeof cities;
 
 export default cities;

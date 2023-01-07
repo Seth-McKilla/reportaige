@@ -1,7 +1,7 @@
 import "./globals.css";
-import { Inter } from "@next/font/google";
+import { Roboto_Slab } from "@next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const roboto_slab = Roboto_Slab({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
@@ -9,9 +9,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en" className={roboto_slab.className}>
       <head />
-      <body>{children}</body>
+      <body className="mx-auto max-w-screen-2xl">{children}</body>
     </html>
   );
 }

@@ -3,14 +3,18 @@
 import createGlobe, { type Marker } from "cobe";
 import { useEffect, useRef } from "react";
 
-import cities from "@/data/cities";
+import type { Cities } from "@/data/cities";
 
-const markers = Object.entries(cities).map(([, { lat, lng }]) => ({
-  location: [lat, lng],
-  size: 0.1,
-})) as Marker[];
+type Props = {
+  cities: Cities;
+};
 
-export default function Globe() {
+export default function Globe({ cities }: Props) {
+  const markers = Object.entries(cities).map(([, { lat, lng }]) => ({
+    location: [lat, lng],
+    size: 0.1,
+  })) as Marker[];
+
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -18,8 +22,8 @@ export default function Globe() {
 
     const globe = createGlobe(canvasRef.current!, {
       devicePixelRatio: 2,
-      width: 1000,
-      height: 1000,
+      width: 1200,
+      height: 1200,
       phi: 0,
       theta: 0,
       dark: 1,
@@ -39,20 +43,13 @@ export default function Globe() {
     return () => {
       globe.destroy();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div
-      style={{
-        width: "100%",
-        maxWidth: 1000,
-        aspectRatio: 1,
-        margin: "auto",
-        position: "relative",
-      }}
-    >
+    <div className="flex">
       <canvas
         ref={canvasRef}
-        style={{ width: 600, height: 600, maxWidth: "100%", aspectRatio: 1 }}
+        style={{ width: 600, height: 600, aspectRatio: 1 }}
       />
     </div>
   );
