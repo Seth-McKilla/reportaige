@@ -3,15 +3,14 @@
 import createGlobe, { type Marker } from "cobe";
 import { useEffect, useRef } from "react";
 
-import { type Cities, type City } from "@/data/cities";
-import { locationToAngles } from "@/utils/location";
+import { cities, type City } from "@/data/cities";
+import { findCity, locationToAngles } from "@/utils/location";
 
 type Props = {
-  cities: Cities;
   selectedCity: City | null;
 };
 
-export default function Globe({ cities, selectedCity }: Props) {
+export default function Globe({ selectedCity }: Props) {
   const markers = Object.entries(cities).map(([, { lat, lng }]) => ({
     location: [lat, lng],
     size: 0.1,
@@ -66,7 +65,7 @@ export default function Globe({ cities, selectedCity }: Props) {
           state.width = width * 2;
           state.height = width * 2;
 
-          const { lat, lng } = cities[selectedCity];
+          const { lat, lng } = findCity(selectedCity);
           focusRef.current = locationToAngles(lat, lng);
         }
       },

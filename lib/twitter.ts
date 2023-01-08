@@ -1,3 +1,5 @@
+import { cities } from "@/data/cities";
+
 const apiKey = process.env.TWITTER_BEARER_TOKEN!;
 const apiUrl = "https://api.twitter.com/1.1/";
 
@@ -9,7 +11,7 @@ export type Trend = {
   tweet_volume: number;
 };
 
-export async function getTrendingTopics(locationId: number) {
+export async function getSingleCityTrendingTopics(locationId: number) {
   try {
     const response = await fetch(
       `${apiUrl}/trends/place.json?id=${locationId}`,
@@ -35,3 +37,10 @@ export async function getTrendingTopics(locationId: number) {
     console.error(error);
   }
 }
+
+// export async function getAllCitiesTrendingTopics() {
+//   const trendingTopics = await Promise.all(
+//     cities.map((city) => getSingleCityTrendingTopics(city.woeid))
+//   );
+//   return trendingTopics;
+// }
