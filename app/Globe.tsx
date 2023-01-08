@@ -3,7 +3,8 @@
 import createGlobe, { type Marker } from "cobe";
 import { useEffect, useRef } from "react";
 
-import type { Cities, City } from "@/data/cities";
+import { type Cities, type City } from "@/data/cities";
+import { locationToAngles } from "@/utils/location";
 
 type Props = {
   cities: Cities;
@@ -18,11 +19,11 @@ export default function Globe({ cities, selectedCity }: Props) {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const focusRef = useRef([0, 0]);
+  const rotation = useRef({ phi: 0, theta: 0 });
 
   useEffect(() => {
     let width = 0;
-    let phi = 0;
-    let theta = 0;
+
     const doublePi = Math.PI * 2;
     const onResize = () =>
       canvasRef.current && (width = canvasRef.current.offsetWidth);
@@ -43,24 +44,30 @@ export default function Globe({ cities, selectedCity }: Props) {
       glowColor: [1.2, 1.2, 1.2],
       markers,
       onRender: (state) => {
-        state.phi = phi;
-        state.theta = theta;
+        state.phi = rotation.current.phi;
+        state.theta = rotation.current.theta;
 
         if (!selectedCity) {
-          phi += 0.01;
+          rotation.current.phi += 0.01;
         } else {
           const [focusPhi, focusTheta] = focusRef.current;
-          const distPositive = (focusPhi - phi + doublePi) % doublePi;
-          const distNegative = (phi - focusPhi + doublePi) % doublePi;
+          const distPositive =
+            (focusPhi - rotation.current.phi + doublePi) % doublePi;
+          const distNegative =
+            (rotation.current.phi - focusPhi + doublePi) % doublePi;
           // Control the speed
           if (distPositive < distNegative) {
-            phi += distPositive * 0.08;
+            rotation.current.phi += distPositive * 0.08;
           } else {
-            phi -= distNegative * 0.08;
+            rotation.current.phi -= distNegative * 0.08;
           }
-          theta = theta * 0.92 + focusTheta * 0.08;
+          rotation.current.theta =
+            rotation.current.theta * 0.92 + focusTheta * 0.08;
           state.width = width * 2;
           state.height = width * 2;
+
+          const { lat, lng } = cities[selectedCity];
+          focusRef.current = locationToAngles(lat, lng);
         }
       },
     });
