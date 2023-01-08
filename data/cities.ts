@@ -60,6 +60,14 @@ const cities = {
     lng: 13.404954,
   },
 };
+export type City = keyof typeof cities;
+export type CityObject = {
+  [key in City]: {
+    id: number;
+    lat: number;
+    lng: number;
+  };
+};
 export type Cities = typeof cities;
 
 export default cities;

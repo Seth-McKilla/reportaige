@@ -1,26 +1,40 @@
 "use client";
 
-import type { Cities } from "@/data/cities";
+import type { Cities, City } from "@/data/cities";
 import { toTitleCase } from "@/utils/common";
 
 type Props = {
   cities: Cities;
+  selectedCity: City | null;
+  setSelectedCity: (city: City | null) => void;
 };
 
-export default function CityOptionsList({ cities }: Props) {
+export default function CityOptionsList({
+  cities,
+  selectedCity,
+  setSelectedCity,
+}: Props) {
   return (
     <div className="grid justify-center grid-cols-3 gap-1">
-      {Object.entries(cities).map(([city, { id }]) => (
-        <button
-          key={city}
-          className="col-span-1 px-1 py-1 text-sm font-semibold text-gray-700 bg-white border border-gray-600 rounded-sm hover:bg-gray-100"
-          onClick={() => {
-            console.log(id);
-          }}
-        >
-          {toTitleCase(city)}
-        </button>
-      ))}
+      {Object.entries(cities).map(([city]) => {
+        let buttonStyle =
+          "px-1 py-1 text-sm font-semibold bg-white border border-gray-800 rounded-sm hover:bg-gray-200";
+        if (selectedCity === city)
+          buttonStyle += " text-white bg-black hover:bg-gray-800";
+
+        return (
+          <button
+            key={city}
+            value={city}
+            className={buttonStyle}
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+              setSelectedCity(e.currentTarget.value as City);
+            }}
+          >
+            {toTitleCase(city)}
+          </button>
+        );
+      })}
     </div>
   );
 }

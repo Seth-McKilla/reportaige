@@ -3,10 +3,11 @@
 import createGlobe, { type Marker } from "cobe";
 import { useEffect, useRef } from "react";
 
-import type { Cities } from "@/data/cities";
+import type { Cities, City } from "@/data/cities";
 
 type Props = {
   cities: Cities;
+  selectedCity: City | null;
 };
 
 export default function Globe({ cities }: Props) {
