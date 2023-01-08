@@ -10,7 +10,7 @@ type Props = {
   selectedCity: City | null;
 };
 
-export default function Globe({ cities }: Props) {
+export default function Globe({ cities, selectedCity }: Props) {
   const markers = Object.entries(cities).map(([, { lat, lng }]) => ({
     location: [lat, lng],
     size: 0.1,
@@ -27,8 +27,8 @@ export default function Globe({ cities }: Props) {
 
   useEffect(() => {
     let width = 0;
-    let currentPhi = 0;
-    let currentTheta = 0;
+    let phi = 0;
+    let theta = 0;
     const doublePi = Math.PI * 2;
     const onResize = () =>
       canvasRef.current && (width = canvasRef.current.offsetWidth);
@@ -49,26 +49,31 @@ export default function Globe({ cities }: Props) {
       glowColor: [1.2, 1.2, 1.2],
       markers,
       onRender: (state) => {
-        state.phi = currentPhi;
-        state.theta = currentTheta;
-        const [focusPhi, focusTheta] = focusRef.current;
-        const distPositive = (focusPhi - currentPhi + doublePi) % doublePi;
-        const distNegative = (currentPhi - focusPhi + doublePi) % doublePi;
-        // Control the speed
-        if (distPositive < distNegative) {
-          currentPhi += distPositive * 0.08;
+        state.phi = phi;
+
+        if (!selectedCity) {
+          phi += 0.01;
         } else {
-          currentPhi -= distNegative * 0.08;
+          state.theta = theta;
+          const [focusPhi, focusTheta] = focusRef.current;
+          const distPositive = (focusPhi - phi + doublePi) % doublePi;
+          const distNegative = (phi - focusPhi + doublePi) % doublePi;
+          // Control the speed
+          if (distPositive < distNegative) {
+            phi += distPositive * 0.08;
+          } else {
+            phi -= distNegative * 0.08;
+          }
+          theta = theta * 0.92 + focusTheta * 0.08;
+          state.width = width * 2;
+          state.height = width * 2;
         }
-        currentTheta = currentTheta * 0.92 + focusTheta * 0.08;
-        state.width = width * 2;
-        state.height = width * 2;
       },
     });
     setTimeout(() => (canvasRef.current!.style.opacity = "1"));
     return () => globe.destroy();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [selectedCity]);
   return (
     <div className="flex align-top">
       <canvas
