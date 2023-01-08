@@ -18,12 +18,6 @@ export default function Globe({ cities, selectedCity }: Props) {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const focusRef = useRef([0, 0]);
-  const locationToAngles = (lat: number, lng: number) => {
-    return [
-      Math.PI - ((lng * Math.PI) / 180 - Math.PI / 2),
-      (lat * Math.PI) / 180,
-    ];
-  };
 
   useEffect(() => {
     let width = 0;
@@ -50,11 +44,11 @@ export default function Globe({ cities, selectedCity }: Props) {
       markers,
       onRender: (state) => {
         state.phi = phi;
+        state.theta = theta;
 
         if (!selectedCity) {
           phi += 0.01;
         } else {
-          state.theta = theta;
           const [focusPhi, focusTheta] = focusRef.current;
           const distPositive = (focusPhi - phi + doublePi) % doublePi;
           const distNegative = (phi - focusPhi + doublePi) % doublePi;
