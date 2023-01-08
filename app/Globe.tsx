@@ -17,34 +17,56 @@ export default function Globe({ cities }: Props) {
   })) as Marker[];
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const focusRef = useRef([0, 0]);
+  const locationToAngles = (lat: number, lng: number) => {
+    return [
+      Math.PI - ((lng * Math.PI) / 180 - Math.PI / 2),
+      (lat * Math.PI) / 180,
+    ];
+  };
 
   useEffect(() => {
-    let phi = 0;
-
+    let width = 0;
+    let currentPhi = 0;
+    let currentTheta = 0;
+    const doublePi = Math.PI * 2;
+    const onResize = () =>
+      canvasRef.current && (width = canvasRef.current.offsetWidth);
+    window.addEventListener("resize", onResize);
+    onResize();
     const globe = createGlobe(canvasRef.current!, {
       devicePixelRatio: 2,
-      width: 1000,
-      height: 1000,
+      width: width * 2,
+      height: width * 2,
       phi: 0,
-      theta: 0,
+      theta: 0.3,
       dark: 1,
-      diffuse: 1.2,
+      diffuse: 3,
       mapSamples: 16000,
-      mapBrightness: 6,
-      baseColor: [0.3, 0.3, 0.3],
-      markerColor: [0.1, 0.8, 1],
-      glowColor: [1, 1, 1],
+      mapBrightness: 1.2,
+      baseColor: [1, 1, 1],
+      markerColor: [251 / 255, 200 / 255, 21 / 255],
+      glowColor: [1.2, 1.2, 1.2],
       markers,
       onRender: (state) => {
-        state.phi = phi;
-        phi += 0.005;
+        state.phi = currentPhi;
+        state.theta = currentTheta;
+        const [focusPhi, focusTheta] = focusRef.current;
+        const distPositive = (focusPhi - currentPhi + doublePi) % doublePi;
+        const distNegative = (currentPhi - focusPhi + doublePi) % doublePi;
+        // Control the speed
+        if (distPositive < distNegative) {
+          currentPhi += distPositive * 0.08;
+        } else {
+          currentPhi -= distNegative * 0.08;
+        }
+        currentTheta = currentTheta * 0.92 + focusTheta * 0.08;
+        state.width = width * 2;
+        state.height = width * 2;
       },
     });
-
-    return () => {
-      globe.destroy();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setTimeout(() => (canvasRef.current!.style.opacity = "1"));
+    return () => globe.destroy();
   }, []);
   return (
     <div className="flex align-top">
