@@ -1,4 +1,4 @@
-import { cities } from "@/data/cities";
+import { cities, type City } from "@/data/cities";
 
 const apiKey = process.env.TWITTER_BEARER_TOKEN!;
 const apiUrl = "https://api.twitter.com/1.1/";
@@ -32,15 +32,19 @@ export async function getSingleCityTrendingTopics(locationId: number) {
         name,
         tweet_volume,
         url,
-      }));
+      })) as Trend[];
   } catch (error) {
     console.error(error);
   }
 }
 
-// export async function getAllCitiesTrendingTopics() {
-//   const trendingTopics = await Promise.all(
-//     cities.map((city) => getSingleCityTrendingTopics(city.woeid))
-//   );
-//   return trendingTopics;
-// }
+export async function getAllCitiesTrendingTopics() {
+  const trendingTopicsByCity = {} as Record<City, Trend[] | undefined>;
+  await Promise.all(
+    cities.map(async (city) => {
+      const trendingTopics = await getSingleCityTrendingTopics(city.id);
+      trendingTopicsByCity[city.name] = trendingTopics;
+    })
+  );
+  return trendingTopicsByCity;
+}

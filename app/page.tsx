@@ -1,6 +1,10 @@
 import Dashboard from "./Dashboard";
+import { getAllCitiesTrendingTopics } from "@/lib/twitter";
 
 export default async function Home() {
+  const trendingTopicsByCity = await getAllCitiesTrendingTopics();
+  console.log(trendingTopicsByCity);
+
   return (
     <main>
       <div className="my-8 text-center">

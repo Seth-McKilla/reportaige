@@ -28,7 +28,7 @@ export const cities = [
   },
   {
     name: "johannesburg",
-    id: 993800,
+    id: 2295412,
     lat: -26.204103,
     lng: 28.047305,
   },
