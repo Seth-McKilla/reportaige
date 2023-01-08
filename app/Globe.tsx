@@ -67,6 +67,7 @@ export default function Globe({ cities }: Props) {
     });
     setTimeout(() => (canvasRef.current!.style.opacity = "1"));
     return () => globe.destroy();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="flex align-top">

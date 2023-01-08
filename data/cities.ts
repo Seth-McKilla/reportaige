@@ -1,4 +1,4 @@
-const cities = {
+export const cities = {
   berlin: {
     id: 638242,
     lat: 52.520008,
@@ -70,5 +70,3 @@ export type CityObject = {
   };
 };
 export type Cities = typeof cities;
-
-export default cities;

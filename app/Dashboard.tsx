@@ -5,7 +5,7 @@ import { useState } from "react";
 import Artwork from "./Artwork";
 import CityOptionsList from "./CityOptionsList";
 import Globe from "./Globe";
-import cities, { type City } from "@/data/cities";
+import { cities, type City } from "@/data/cities";
 
 export default function Dashboard() {
   const [selectedCity, setSelectedCity] = useState<City | null>(null);
