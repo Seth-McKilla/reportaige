@@ -22,8 +22,8 @@ export default function Globe({ cities }: Props) {
 
     const globe = createGlobe(canvasRef.current!, {
       devicePixelRatio: 2,
-      width: 1200,
-      height: 1200,
+      width: 1000,
+      height: 1000,
       phi: 0,
       theta: 0,
       dark: 1,
@@ -46,10 +46,10 @@ export default function Globe({ cities }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className="flex">
+    <div className="flex align-top">
       <canvas
         ref={canvasRef}
-        style={{ width: 600, height: 600, aspectRatio: 1 }}
+        style={{ width: 500, height: 500, aspectRatio: 1 }}
       />
     </div>
   );

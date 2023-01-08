@@ -49,6 +49,16 @@ const cities = {
     lat: -26.204103,
     lng: 28.047305,
   },
+  "san-francisco": {
+    id: 2487956,
+    lat: 37.77493,
+    lng: -122.419416,
+  },
+  berlin: {
+    id: 638242,
+    lat: 52.520008,
+    lng: 13.404954,
+  },
 };
 export type Cities = typeof cities;
 
