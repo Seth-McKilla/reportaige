@@ -30,6 +30,19 @@ export function formatTrendsString(trends: Trend[]) {
   return formattedTrends;
 }
 
+export async function createArtwork(prompt: string) {
+  try {
+    const response = await openai.createImage({
+      prompt,
+      n: 1,
+      size: "512x512",
+    });
+    return response.data.data[0].url;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export async function createArtworkScenesByCity() {
   try {
     let trendingTopicsByCity: TrendingTopicsByCity;
@@ -56,19 +69,6 @@ export async function createArtworkScenesByCity() {
       max_tokens: 50,
     });
     return response.data.choices[0].text;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-export async function createArtwork(prompt: string) {
-  try {
-    const response = await openai.createImage({
-      prompt,
-      n: 1,
-      size: "1024x1024",
-    });
-    return response.data.data[0].url;
   } catch (error) {
     console.error(error);
   }
