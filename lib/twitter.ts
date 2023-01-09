@@ -52,6 +52,6 @@ export async function getAllCitiesTrendingTopics() {
   );
   return trendingTopicsByCity;
 }
-export type TrendingTopicsByCity = ReturnType<
-  typeof getAllCitiesTrendingTopics
+export type TrendingTopicsByCity = Awaited<
+  ReturnType<typeof getAllCitiesTrendingTopics>
 >;

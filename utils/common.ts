@@ -4,3 +4,10 @@ export const toTitleCase = (str: string) => {
     .map((word) => word[0].toUpperCase() + word.slice(1))
     .join(" ");
 };
+
+export const toLowerSpaceCase = (str: string) => {
+  return str
+    .replace(/[^a-zA-Z ]/g, "")
+    .toLowerCase()
+    .replace(" ", "-");
+};

@@ -1,6 +1,4 @@
-import fs from "fs";
 import Dashboard from "./Dashboard";
-import { getAllCitiesTrendingTopics } from "@/lib/twitter";
 
 export default async function Home() {
   return (
