@@ -54,9 +54,9 @@ export default function Globe({ selectedCity }: Props) {
             (rotation.current.phi - focusPhi + doublePi) % doublePi;
           // Control the speed
           if (distPositive < distNegative) {
-            rotation.current.phi += distPositive * 0.08;
+            rotation.current.phi += distPositive * 0.04;
           } else {
-            rotation.current.phi -= distNegative * 0.08;
+            rotation.current.phi -= distNegative * 0.04;
           }
           rotation.current.theta =
             rotation.current.theta * 0.92 + focusTheta * 0.08;
