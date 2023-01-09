@@ -10,8 +10,7 @@ import { type City } from "@/data/cities";
 import fetcher from "@/utils/fetcher";
 
 export default function Dashboard() {
-  const { data } = useSWR("/api/openai/artwork", fetcher);
-  console.log(data);
+  // const { data } = useSWR("/api/openai/artwork", fetcher);
 
   const [selectedCity, setSelectedCity] = useState<City | null>(null);
 
