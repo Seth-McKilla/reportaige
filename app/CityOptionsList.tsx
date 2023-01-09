@@ -1,5 +1,3 @@
-"use client";
-
 import { cities, type City } from "@/data/cities";
 import { toTitleCase } from "@/utils/common";
 

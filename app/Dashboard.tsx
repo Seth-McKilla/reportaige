@@ -5,7 +5,7 @@ import { useState } from "react";
 import Artwork from "./Artwork";
 import CityOptionsList from "./CityOptionsList";
 import Globe from "./Globe";
-import { type City } from "@/data/cities";
+import type { City } from "@/data/cities";
 
 export default function Dashboard() {
   const [selectedCity, setSelectedCity] = useState<City | null>(null);
@@ -13,14 +13,14 @@ export default function Dashboard() {
   return (
     <main>
       <div className="flex">
-        <div className="flex flex-col m-2">
+        <div className="flex flex-col m-4">
           <Globe selectedCity={selectedCity} />
           <CityOptionsList
             selectedCity={selectedCity}
             setSelectedCity={setSelectedCity}
           />
         </div>
-        <div className="flex items-end m-2">
+        <div className="flex items-start m-4">
           <Artwork selectedCity={selectedCity} />
         </div>
       </div>

@@ -1,5 +1,3 @@
-"use client";
-
 import createGlobe, { type Marker } from "cobe";
 import { useEffect, useRef } from "react";
 
@@ -47,7 +45,7 @@ export default function Globe({ selectedCity }: Props) {
         state.theta = rotation.current.theta;
 
         if (!selectedCity) {
-          rotation.current.phi += 0.01;
+          rotation.current.phi += 0.005;
         } else {
           const [focusPhi, focusTheta] = focusRef.current;
           const distPositive =
@@ -75,7 +73,7 @@ export default function Globe({ selectedCity }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCity]);
   return (
-    <div className="flex align-top">
+    <div className="flex mb-6 align-top">
       <canvas
         ref={canvasRef}
         style={{ width: 500, height: 500, aspectRatio: 1 }}
