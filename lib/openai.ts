@@ -60,3 +60,16 @@ export async function createArtworkScenesByCity() {
     console.error(error);
   }
 }
+
+export async function createArtwork(prompt: string) {
+  try {
+    const response = await openai.createImage({
+      prompt,
+      n: 1,
+      size: "1024x1024",
+    });
+    return response.data.data[0].url;
+  } catch (error) {
+    console.error(error);
+  }
+}

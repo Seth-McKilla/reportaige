@@ -1,16 +1,13 @@
 export type City =
   | "berlin"
-  | "cairo"
   | "johannesburg"
   | "london"
-  | "moscow"
   | "mumbai"
   | "new-york-city"
   | "sao-paulo"
   | "san-francisco"
   | "singapore"
-  | "sydney"
-  | "tokyo";
+  | "sydney";
 
 export type CityInfo = {
   name: City;
@@ -27,12 +24,6 @@ export const cities: CityInfo[] = [
     lng: 13.404954,
   },
   {
-    name: "cairo",
-    id: 2383660,
-    lat: 30.04442,
-    lng: 31.235712,
-  },
-  {
     name: "johannesburg",
     id: 2295412,
     lat: -26.204103,
@@ -43,12 +34,6 @@ export const cities: CityInfo[] = [
     id: 44418,
     lat: 51.507351,
     lng: -0.127758,
-  },
-  {
-    name: "moscow",
-    id: 2122265,
-    lat: 55.755826,
-    lng: 37.6173,
   },
   {
     name: "mumbai",
@@ -85,11 +70,5 @@ export const cities: CityInfo[] = [
     id: 1105779,
     lat: -33.86882,
     lng: 151.20929,
-  },
-  {
-    name: "tokyo",
-    id: 1118370,
-    lat: 35.689487,
-    lng: 139.691706,
   },
 ];
