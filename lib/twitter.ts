@@ -24,6 +24,10 @@ export async function getSingleCityTrendingTopics(locationId: number) {
     const data = await response.json();
     const trends: Trend[] = data?.[0]?.trends;
 
+    if (!trends) {
+      throw new Error("No trends found");
+    }
+
     // Sort by tweet volume and filter out any trends that don't have a tweet volume
     return trends
       .sort((a, b) => b.tweet_volume - a.tweet_volume)
@@ -48,3 +52,6 @@ export async function getAllCitiesTrendingTopics() {
   );
   return trendingTopicsByCity;
 }
+export type TrendingTopicsByCity = ReturnType<
+  typeof getAllCitiesTrendingTopics
+>;
