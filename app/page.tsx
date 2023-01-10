@@ -26,6 +26,6 @@ async function getArtworkByCity() {
       revalidate: 24 * 60 * 60, // 24 hours
     },
   });
-  const data = await response.json();
+  const { data } = await response.json();
   return data as ArtworkScenesByCity;
 }

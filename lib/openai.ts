@@ -39,8 +39,8 @@ export async function createArtwork(trendsObject: FormattedTrend) {
 
     trendsObject.imageUrl = imageUrl;
     return trendsObject;
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    console.error(error?.response?.data?.error);
   }
 }
 
@@ -68,9 +68,9 @@ export async function createArtworkScenesByCity() {
       );
       const response = await openai.createCompletion({
         model: "text-davinci-003",
-        prompt: `Create a single, complete sentence scene in 50 characters or less based on as many of the following words / phrases as possible: ${trendsString.description}`,
+        prompt: `Create a single, complete sentence scene in 30 characters or less based on as many of the following words / phrases as possible: ${trendsString.description}`,
         temperature: 0,
-        max_tokens: 50,
+        max_tokens: 30,
       });
       const artworkScene = response.data.choices[0].text;
 
@@ -80,8 +80,8 @@ export async function createArtworkScenesByCity() {
 
       return acc;
     }, Promise.resolve({} as Record<City, FormattedTrend>));
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    console.error(error?.response?.data?.error);
   }
 }
 export type ArtworkScenesByCity = NonNullable<
