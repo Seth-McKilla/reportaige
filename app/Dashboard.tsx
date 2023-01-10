@@ -20,7 +20,7 @@ export default function Dashboard({ artworkByCity }: Props) {
     <main>
       <div className="flex">
         <div className="flex flex-col m-4">
-          <Globe selectedCity={selectedCity} />
+          <Globe artworkByCity={artworkByCity} selectedCity={selectedCity} />
           <CityOptionsList
             selectedCity={selectedCity}
             setSelectedCity={setSelectedCity}
