@@ -2,16 +2,23 @@ import createGlobe, { type Marker } from "cobe";
 import { useEffect, useRef } from "react";
 
 import { cities, type City } from "@/data/cities";
+import type { ArtworkScenesByCity } from "@/lib/openai";
 import { findCity, locationToAngles } from "@/utils/location";
 
 type Props = {
+  artworkByCity: ArtworkScenesByCity;
   selectedCity: City | null;
 };
 
-export default function Globe({ selectedCity }: Props) {
-  const markers = Object.entries(cities).map(([, { lat, lng }]) => ({
+export default function Globe({ artworkByCity, selectedCity }: Props) {
+  const totalTweetCount = Object.values(artworkByCity).reduce(
+    (acc, { totalTweets }) => acc + (totalTweets || 0),
+    0
+  );
+
+  const markers = Object.entries(cities).map(([city, { lat, lng }]) => ({
     location: [lat, lng],
-    size: 0.1,
+    size: (artworkByCity[city as City].totalTweets! / totalTweetCount) * 0.5,
   })) as Marker[];
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
