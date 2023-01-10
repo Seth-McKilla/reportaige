@@ -59,31 +59,34 @@ export async function createArtworkScenesByCity() {
       trendingTopicsByCity = await getAllCitiesTrendingTopics();
     }
 
-    const artworkScenesByCity = {} as Record<City, FormattedTrend>;
+    const cities = Object.keys(trendingTopicsByCity);
 
-    for (const city in trendingTopicsByCity) {
+    return cities.reduce(async (accPromise, city) => {
+      const acc = await accPromise;
       const trendsString = formatTrendsString(
         trendingTopicsByCity[city as City] as Trend[]
       );
-
       const response = await openai.createCompletion({
         model: "text-davinci-003",
-        prompt: `Create a single, complete sentence scene in 30 characters or less based on as many of the following words / phrases: ${trendsString.description}`,
+        prompt: `Create a single, complete sentence scene in 50 characters or less based on as many of the following words / phrases: ${trendsString.description}`,
         temperature: 0,
-        max_tokens: 30,
+        max_tokens: 50,
       });
       const artworkScene = response.data.choices[0].text;
 
-      artworkScenesByCity[city as City] = {
+      acc[city as City] = {
         description: artworkScene,
       };
-    }
 
-    return artworkScenesByCity;
+      return acc;
+    }, Promise.resolve({} as Record<City, FormattedTrend>));
   } catch (error) {
     console.error(error);
   }
 }
+export type ArtworkScenesByCity = Awaited<
+  ReturnType<typeof createArtworkScenesByCity>
+>;
 
 export function formatTrendsString(trends: Trend[]) {
   const trendsObject = { ...formattedTrends };

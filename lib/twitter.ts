@@ -43,14 +43,12 @@ export async function getSingleCityTrendingTopics(locationId: number) {
 }
 
 export async function getAllCitiesTrendingTopics() {
-  const trendingTopicsByCity = {} as Record<City, Trend[] | undefined>;
-  await Promise.all(
-    cities.map(async (city) => {
-      const trendingTopics = await getSingleCityTrendingTopics(city.id);
-      trendingTopicsByCity[city.name] = trendingTopics;
-    })
-  );
-  return trendingTopicsByCity;
+  return await cities.reduce(async (accPromise, city) => {
+    const acc = await accPromise;
+    const trendingTopics = await getSingleCityTrendingTopics(city.id);
+    acc[city.name] = trendingTopics as Trend[];
+    return acc;
+  }, Promise.resolve({} as Record<City, Trend[]>));
 }
 export type TrendingTopicsByCity = Awaited<
   ReturnType<typeof getAllCitiesTrendingTopics>

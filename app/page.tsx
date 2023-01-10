@@ -1,6 +1,9 @@
 import Dashboard from "./Dashboard";
+import type { ArtworkScenesByCity } from "@/lib/openai";
 
 export default async function Home() {
+  // const artworkByCity = await getArtworkByCity();
+
   return (
     <main>
       <div className="my-8 text-center">
@@ -11,8 +14,18 @@ export default async function Home() {
         </p>
       </div>
       <div className="flex justify-center h-full">
-        <Dashboard />
+        <Dashboard artworkByCity={artworkByCity} />
       </div>
     </main>
   );
+}
+
+async function getArtworkByCity() {
+  const response = await fetch(`${process.env.APP_URL!}/api/openai/artwork`, {
+    next: {
+      revalidate: 24 * 60 * 60, // 24 hours
+    },
+  });
+  const data = await response.json();
+  return data as ArtworkScenesByCity;
 }

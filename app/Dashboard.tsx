@@ -6,8 +6,13 @@ import Artwork from "./Artwork";
 import CityOptionsList from "./CityOptionsList";
 import Globe from "./Globe";
 import type { City } from "@/data/cities";
+import type { ArtworkScenesByCity } from "@/lib/openai";
 
-export default function Dashboard() {
+type Props = {
+  artworkByCity: ArtworkScenesByCity;
+};
+
+export default function Dashboard({ artworkByCity }: Props) {
   const [selectedCity, setSelectedCity] = useState<City | null>(null);
 
   return (

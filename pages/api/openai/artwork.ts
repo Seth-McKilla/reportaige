@@ -17,20 +17,20 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   try {
-    const artworkScenesByCity = (await createArtworkScenesByCity()) as Record<
+    const artworkByCity = (await createArtworkScenesByCity()) as Record<
       City,
       FormattedTrend
     >;
 
     await Promise.all(
-      Object.entries(artworkScenesByCity).map(async ([city, trendsObject]) => {
+      Object.entries(artworkByCity).map(async ([city, trendsObject]) => {
         const imageUrl = await createArtwork(trendsObject);
         return { [city]: { ...trendsObject, imageUrl } };
       })
     );
 
     return res.status(200).json({
-      data: artworkScenesByCity,
+      data: artworkByCity,
     });
   } catch (error) {
     console.error(error);
