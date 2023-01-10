@@ -4,6 +4,7 @@ import { City } from "@/data/cities";
 import {
   createArtwork,
   createArtworkScenesByCity,
+  type ArtworkScenesByCity,
   type FormattedTrend,
 } from "@/lib/openai";
 
@@ -17,10 +18,8 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   try {
-    const artworkByCity = (await createArtworkScenesByCity()) as Record<
-      City,
-      FormattedTrend
-    >;
+    const artworkByCity =
+      (await createArtworkScenesByCity()) as ArtworkScenesByCity;
 
     await Promise.all(
       Object.entries(artworkByCity).map(async ([city, trendsObject]) => {

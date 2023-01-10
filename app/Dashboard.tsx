@@ -14,6 +14,7 @@ type Props = {
 
 export default function Dashboard({ artworkByCity }: Props) {
   const [selectedCity, setSelectedCity] = useState<City | null>(null);
+  const artworkInfo = selectedCity && artworkByCity[selectedCity];
 
   return (
     <main>
@@ -26,7 +27,7 @@ export default function Dashboard({ artworkByCity }: Props) {
           />
         </div>
         <div className="flex items-start m-4">
-          <Artwork selectedCity={selectedCity} />
+          <Artwork artworkInfo={artworkInfo} />
         </div>
       </div>
     </main>

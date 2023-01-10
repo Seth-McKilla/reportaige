@@ -68,7 +68,7 @@ export async function createArtworkScenesByCity() {
       );
       const response = await openai.createCompletion({
         model: "text-davinci-003",
-        prompt: `Create a single, complete sentence scene in 50 characters or less based on as many of the following words / phrases: ${trendsString.description}`,
+        prompt: `Create a single, complete sentence scene in 50 characters or less based on as many of the following words / phrases as possible: ${trendsString.description}`,
         temperature: 0,
         max_tokens: 50,
       });
@@ -84,8 +84,8 @@ export async function createArtworkScenesByCity() {
     console.error(error);
   }
 }
-export type ArtworkScenesByCity = Awaited<
-  ReturnType<typeof createArtworkScenesByCity>
+export type ArtworkScenesByCity = NonNullable<
+  Awaited<ReturnType<typeof createArtworkScenesByCity>>
 >;
 
 export function formatTrendsString(trends: Trend[]) {

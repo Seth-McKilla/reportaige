@@ -2,7 +2,7 @@ import Dashboard from "./Dashboard";
 import type { ArtworkScenesByCity } from "@/lib/openai";
 
 export default async function Home() {
-  // const artworkByCity = await getArtworkByCity();
+  const artworkByCity = await getArtworkByCity();
 
   return (
     <main>
