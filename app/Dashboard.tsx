@@ -26,8 +26,13 @@ export default function Dashboard({ artworkByCity }: Props) {
             setSelectedCity={setSelectedCity}
           />
         </div>
-        <div className="flex items-start m-4">
+        <div className="flex flex-col items-start m-4">
           <Artwork artworkInfo={artworkInfo} />
+          {artworkInfo && (
+            <p className="w-full mt-4 text-center max-w-[512px]">
+              {artworkInfo.description}
+            </p>
+          )}
         </div>
       </div>
     </main>

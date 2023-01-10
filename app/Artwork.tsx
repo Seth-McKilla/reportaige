@@ -15,17 +15,14 @@ export default function Artwork({ artworkInfo }: Props) {
   return (
     <div className={containerStyles}>
       {artworkInfo?.imageUrl ? (
-        <>
-          <Image
-            src={artworkInfo.imageUrl}
-            alt={artworkInfo.description || "Artwork"}
-            placeholder="blur"
-            blurDataURL={artworkInfo.imageUrl}
-            width={512}
-            height={512}
-          />
-          <p className="w-full text-center ">{artworkInfo.description}</p>
-        </>
+        <Image
+          src={artworkInfo.imageUrl}
+          alt={artworkInfo.description || "Artwork"}
+          placeholder="blur"
+          blurDataURL={artworkInfo.imageUrl}
+          width={512}
+          height={512}
+        />
       ) : (
         <p className="text-xl font-semibold text-gray-600">Select a City</p>
       )}

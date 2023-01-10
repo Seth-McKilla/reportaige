@@ -66,6 +66,7 @@ export async function createArtworkScenesByCity() {
       const trendsString = formatTrendsString(
         trendingTopicsByCity[city as City] as Trend[]
       );
+
       const response = await openai.createCompletion({
         model: "text-davinci-003",
         prompt: `Create a single, complete sentence scene in 30 characters or less based on as many of the following words / phrases as possible: ${trendsString.description}`,
@@ -75,6 +76,7 @@ export async function createArtworkScenesByCity() {
       const artworkScene = response.data.choices[0].text;
 
       acc[city as City] = {
+        ...trendsString,
         description: artworkScene,
       };
 

@@ -16,9 +16,9 @@ export default function Globe({ artworkByCity, selectedCity }: Props) {
     0
   );
 
-  const markers = Object.entries(cities).map(([city, { lat, lng }]) => ({
+  const markers = cities.map(({ name, lat, lng }) => ({
     location: [lat, lng],
-    size: (artworkByCity[city as City]?.totalTweets! / totalTweetCount) * 0.5,
+    size: (artworkByCity[name].totalTweets! / totalTweetCount) * 3,
   })) as Marker[];
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
