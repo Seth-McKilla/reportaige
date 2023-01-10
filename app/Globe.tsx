@@ -16,8 +16,6 @@ export default function Globe({ artworkByCity, selectedCity }: Props) {
     0
   );
 
-  console.log(artworkByCity);
-
   const markers = Object.entries(cities).map(([city, { lat, lng }]) => ({
     location: [lat, lng],
     size: (artworkByCity[city as City]?.totalTweets! / totalTweetCount) * 0.5,
