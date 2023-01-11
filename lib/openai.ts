@@ -1,7 +1,6 @@
 import { Configuration, OpenAIApi } from "openai";
 
 import { illustrationStyles } from "@/data/openai";
-import type { Artwork } from "@/lib/twitter";
 import { getRandomArrayItem, toLowerSpaceCase } from "@/utils/common";
 
 const configuration = new Configuration({
@@ -9,16 +8,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-export default openai;
-
-const formattedTrends = {
-  description: "",
-  totalTweets: 0,
-  imageUrl: "",
-};
-export type FormattedTrend = Partial<typeof formattedTrends>;
-
-export async function createArtwork(trendsObject: FormattedTrend) {
+export async function createArtwork(artwork: Artwork) {
   try {
     const prompt = `Create a ${getRandomArrayItem(
       illustrationStyles
@@ -38,11 +28,11 @@ export async function createArtwork(trendsObject: FormattedTrend) {
   }
 }
 
-export async function createArtworkDescription(artwork: Artwork) {
+export async function createArtworkDescription(hashtags: Artwork["hashtags"]) {
   const max_tokens = 30;
   const request = `Create a single, complete sentence description in ${max_tokens} characters or less, without profanity, based on as many of the following words / phrases as possible:`;
 
-  const inputWords = artwork.hashtags.reduce((acc, hashtag) => {
+  const inputWords = hashtags.reduce((acc, hashtag) => {
     const word = toLowerSpaceCase(hashtag);
     return `${acc}, ${word}`;
   }, "");
@@ -52,16 +42,11 @@ export async function createArtworkDescription(artwork: Artwork) {
   try {
     const response = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: `${prompt} ${artwork.hashtags.join(", ")}.`,
+      prompt: `${prompt} ${hashtags.join(", ")}.`,
       temperature: 0,
       max_tokens,
     });
-    const artworkDescription = response.data.choices[0].text || "";
-
-    return {
-      ...artwork,
-      description: artworkDescription,
-    };
+    return response.data.choices[0].text || "";
   } catch (error: any) {
     console.error(error?.response?.data?.error);
   }

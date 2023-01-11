@@ -50,11 +50,7 @@ export function processTrends(trends: Trend[]) {
   });
 
   return {
-    imgSrc: "",
-    description: "",
     totalTweets,
     hashtags,
-    isCurrent: true,
   };
 }
-export type Artwork = NonNullable<ReturnType<typeof processTrends>>;

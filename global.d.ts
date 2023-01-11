@@ -1,3 +1,11 @@
+type Artwork = {
+  imgSrc: string;
+  description: string;
+  totalTweets: number;
+  hashtags: string[];
+  isCurrent?: boolean;
+};
+
 type City =
   | "berlin"
   | "johannesburg"

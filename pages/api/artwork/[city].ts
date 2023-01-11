@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import clientPromise from "@/lib/mongodb";
+import { createArtworkDescription } from "@/lib/openai";
 import { getTrendingTopics, processTrends } from "@/lib/twitter";
 import { fetchCollection } from "@/utils/api";
 
@@ -29,7 +30,8 @@ export default async function handler(
       return res.status(404).json({ error: "No trending topics found" });
     }
 
-    const artwork = processTrends(trendingTopics);
+    const { totalTweets, hashtags } = processTrends(trendingTopics);
+    const artworkDescription = await createArtworkDescription(hashtags);
   } catch (error: any) {
     console.error(error?.response?.data?.error || error);
     return res.status(500).json({ error: "Oops! Something went wrong." });
