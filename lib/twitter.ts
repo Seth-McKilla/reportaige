@@ -36,8 +36,8 @@ export async function getTrendingTopics(twitterLocationId: number) {
         url,
       })) as Trend[];
   } catch (error: any) {
-    console.error(error?.response?.data?.error);
-    return "";
+    console.error(error?.response?.data?.error || error);
+    return error?.response?.data?.error?.message || error?.message;
   }
 }
 

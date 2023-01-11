@@ -10,6 +10,7 @@
     "lint:ts": "tsc --noEmit --incremental --watch"
   },
   "dependencies": {
+    "@google-cloud/storage": "^6.9.0",
     "@next/font": "13.1.1",
     "@types/node": "18.11.18",
     "@types/react": "18.0.26",

@@ -28,8 +28,8 @@ export async function createArtworkDescription(hashtags: Artwork["hashtags"]) {
     });
     return response.data.choices[0].text || "";
   } catch (error: any) {
-    console.error(error?.response?.data?.error);
-    return "";
+    console.error(error?.response?.data?.error || error);
+    return error?.response?.data?.error?.message || error?.message;
   }
 }
 
@@ -48,7 +48,7 @@ export async function createArtwork(
     });
     return response.data.data[0].url || "";
   } catch (error: any) {
-    console.error(error?.response?.data?.error);
-    return "";
+    console.error(error?.response?.data?.error || error);
+    return error?.response?.data?.error?.message || error?.message;
   }
 }
