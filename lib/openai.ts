@@ -1,9 +1,7 @@
-import fs from "fs";
 import { Configuration, OpenAIApi } from "openai";
 
-import type { City } from "@/data/cities";
 import { illustrationStyles } from "@/data/openai";
-import { type Trend } from "@/lib/twitter";
+import type { Artwork } from "@/lib/twitter";
 import { getRandomArrayItem, toLowerSpaceCase } from "@/utils/common";
 
 const configuration = new Configuration({
@@ -40,48 +38,31 @@ export async function createArtwork(trendsObject: FormattedTrend) {
   }
 }
 
-export async function createArtworkScenesByCity() {
+export async function createArtworkDescription(artwork: Artwork) {
+  const max_tokens = 30;
+  const request = `Create a single, complete sentence description in ${max_tokens} characters or less, without profanity, based on as many of the following words / phrases as possible:`;
+
+  const inputWords = artwork.hashtags.reduce((acc, hashtag) => {
+    const word = toLowerSpaceCase(hashtag);
+    return `${acc}, ${word}`;
+  }, "");
+
+  const prompt = `${request} ${inputWords}.`;
+
   try {
-    let trendingTopicsByCity: TrendingTopicsByCity;
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: `${prompt} ${artwork.hashtags.join(", ")}.`,
+      temperature: 0,
+      max_tokens,
+    });
+    const artworkDescription = response.data.choices[0].text || "";
 
-    if (process.env.NODE_ENV === "development") {
-      // Read from local file to avoid hitting Twitter API rate limit
-      const trendingTopicsByCityJSON = fs.readFileSync(
-        "data/trendingTopicsByCity-example.json",
-        "utf8"
-      );
-      trendingTopicsByCity = JSON.parse(trendingTopicsByCityJSON.toString());
-    } else {
-      trendingTopicsByCity = await getAllCitiesTrendingTopics();
-    }
-
-    const cities = Object.keys(trendingTopicsByCity);
-
-    return cities.reduce(async (accPromise, city) => {
-      const acc = await accPromise;
-      const trendsString = formatTrendsString(
-        trendingTopicsByCity[city as City] as Trend[]
-      );
-
-      const response = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: `Create a single, complete sentence scene in 30 characters or less based on as many of the following words / phrases as possible: ${trendsString.description}`,
-        temperature: 0,
-        max_tokens: 30,
-      });
-      const artworkScene = response.data.choices[0].text;
-
-      acc[city as City] = {
-        ...trendsString,
-        description: artworkScene,
-      };
-
-      return acc;
-    }, Promise.resolve({} as Record<City, FormattedTrend>));
+    return {
+      ...artwork,
+      description: artworkDescription,
+    };
   } catch (error: any) {
     console.error(error?.response?.data?.error);
   }
 }
-export type ArtworkScenesByCity = NonNullable<
-  Awaited<ReturnType<typeof createArtworkScenesByCity>>
->;
