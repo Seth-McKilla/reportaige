@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { City } from "@/data/cities";
 import {
   createArtwork,
   createArtworkScenesByCity,

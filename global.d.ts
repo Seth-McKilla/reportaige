@@ -1,4 +1,4 @@
-export type City =
+type City =
   | "berlin"
   | "johannesburg"
   | "london"
@@ -9,9 +9,9 @@ export type City =
   | "singapore"
   | "sydney";
 
-export type CityInfo = {
+type CityInfo = {
   name: City;
-  id: number;
+  twitterLocationId: number;
   lat: number;
   lng: number;
 };

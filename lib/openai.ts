@@ -3,11 +3,7 @@ import { Configuration, OpenAIApi } from "openai";
 
 import type { City } from "@/data/cities";
 import { illustrationStyles } from "@/data/openai";
-import {
-  getAllCitiesTrendingTopics,
-  type Trend,
-  type TrendingTopicsByCity,
-} from "@/lib/twitter";
+import { type Trend } from "@/lib/twitter";
 import { getRandomArrayItem, toLowerSpaceCase } from "@/utils/common";
 
 const configuration = new Configuration({
@@ -89,15 +85,3 @@ export async function createArtworkScenesByCity() {
 export type ArtworkScenesByCity = NonNullable<
   Awaited<ReturnType<typeof createArtworkScenesByCity>>
 >;
-
-export function formatTrendsString(trends: Trend[]) {
-  const trendsObject = { ...formattedTrends };
-
-  trends.map(({ name, tweet_volume }) => {
-    name = toLowerSpaceCase(name);
-    trendsObject.description += `${name}, `;
-    trendsObject.totalTweets += tweet_volume;
-  });
-
-  return trendsObject;
-}

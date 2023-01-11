@@ -1,5 +1,3 @@
-import { cities, type City } from "@/data/cities";
-
 const apiKey = process.env.TWITTER_BEARER_TOKEN!;
 const apiUrl = "https://api.twitter.com/1.1/";
 
@@ -11,10 +9,10 @@ export type Trend = {
   tweet_volume: number;
 };
 
-export async function getSingleCityTrendingTopics(locationId: number) {
+export async function getTrendingTopics(twitterLocationId: number) {
   try {
     const response = await fetch(
-      `${apiUrl}/trends/place.json?id=${locationId}`,
+      `${apiUrl}/trends/place.json?id=${twitterLocationId}`,
       {
         headers: {
           Authorization: `Bearer ${apiKey}`,
@@ -22,7 +20,7 @@ export async function getSingleCityTrendingTopics(locationId: number) {
       }
     );
     const data = await response.json();
-    const trends: Trend[] = data?.[0]?.trends;
+    const trends = data?.[0]?.trends as Trend[];
 
     if (!trends) {
       throw new Error("No trends found");
@@ -42,14 +40,21 @@ export async function getSingleCityTrendingTopics(locationId: number) {
   }
 }
 
-export async function getAllCitiesTrendingTopics() {
-  return await cities.reduce(async (accPromise, city) => {
-    const acc = await accPromise;
-    const trendingTopics = await getSingleCityTrendingTopics(city.id);
-    acc[city.name] = trendingTopics as Trend[];
-    return acc;
-  }, Promise.resolve({} as Record<City, Trend[]>));
+export function processTrends(trends: Trend[]) {
+  let totalTweets = 0;
+  let hashtags: string[] = [];
+
+  trends.forEach((trend) => {
+    if (trend.tweet_volume) totalTweets += trend.tweet_volume;
+    hashtags.push(trend.name.replace("#", ""));
+  });
+
+  return {
+    imgSrc: "",
+    description: "",
+    totalTweets,
+    hashtags,
+    isCurrent: true,
+  };
 }
-export type TrendingTopicsByCity = Awaited<
-  ReturnType<typeof getAllCitiesTrendingTopics>
->;
+export type Artwork = NonNullable<ReturnType<typeof processTrends>>;
