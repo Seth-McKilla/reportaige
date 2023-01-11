@@ -1,3 +1,4 @@
+import type { ObjectId } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { uploadFile } from "@/lib/gcp";
@@ -23,15 +24,37 @@ export default async function handler(
     const citiesCollection = await fetchCollection(clientPromise, "cities");
     const cityInfo = (await citiesCollection.findOne({
       name: city,
-    })) as CityInfo;
+    })) as CityInfo & { _id: ObjectId };
 
     const trendingTopics = await getTrendingTopics(cityInfo.twitterLocationId);
-
     const { totalTweets, hashtags } = processTrends(trendingTopics);
 
-    const artworkDescription = await createArtworkDescription(hashtags);
+    const description = await createArtworkDescription(hashtags);
+    const artworkImageUrl = await createArtwork(description);
 
-    const artworkImageUrl = await createArtwork(artworkDescription);
+    const response = await fetch(artworkImageUrl);
+    const blob = await response.blob();
+
+    const imgFilename = `${city}-${Date.now()}.jpeg`;
+    const file = new File([blob], imgFilename, {
+      type: "image/jpeg",
+    });
+
+    await uploadFile(file);
+
+    const artwork: Artwork = {
+      cityId: cityInfo._id,
+      imgFilename,
+      description,
+      totalTweets,
+      hashtags,
+      isActive: true,
+      createdAt: new Date(),
+    };
+    const artworkCollection = await fetchCollection(clientPromise, "artwork");
+    await artworkCollection.insertOne(artwork);
+
+    return res.status(201).json({ artwork });
   } catch (error: any) {
     console.error(error?.response?.data?.error || error);
     return res

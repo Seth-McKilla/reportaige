@@ -1,9 +1,11 @@
 type Artwork = {
-  imgSrc: string;
+  cityId: ObjectId;
+  imgFilename: string;
   description: string;
   totalTweets: number;
   hashtags: string[];
-  isCurrent?: boolean;
+  isActive: boolean;
+  createdAt: Date;
 };
 
 type City =

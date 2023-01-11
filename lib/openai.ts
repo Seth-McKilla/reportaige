@@ -8,7 +8,9 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-export async function createArtworkDescription(hashtags: Artwork["hashtags"]) {
+export async function createArtworkDescription(
+  hashtags: Artwork["hashtags"]
+): Promise<string> {
   const max_tokens = 30;
   const request = `Create a single, complete sentence description in ${max_tokens} characters or less, without profanity, based on as many of the following words / phrases as possible:`;
 
@@ -35,7 +37,7 @@ export async function createArtworkDescription(hashtags: Artwork["hashtags"]) {
 
 export async function createArtwork(
   artworkDescription: Artwork["description"]
-) {
+): Promise<string> {
   try {
     const prompt = `Create a ${getRandomArrayItem(
       illustrationStyles

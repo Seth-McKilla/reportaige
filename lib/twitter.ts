@@ -9,7 +9,9 @@ export type Trend = {
   tweet_volume: number;
 };
 
-export async function getTrendingTopics(twitterLocationId: number) {
+export async function getTrendingTopics(
+  twitterLocationId: number
+): Promise<Trend[]> {
   try {
     const response = await fetch(
       `${twitterApiUrl}/trends/place.json?id=${twitterLocationId}`,
