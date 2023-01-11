@@ -8,26 +8,6 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-export async function createArtwork(artwork: Artwork) {
-  try {
-    const prompt = `Create a ${getRandomArrayItem(
-      illustrationStyles
-    )} piece of artwork of the following scene: ${trendsObject.description}`;
-
-    const response = await openai.createImage({
-      prompt,
-      n: 1,
-      size: "512x512",
-    });
-    const imageUrl = response.data.data[0].url;
-
-    trendsObject.imageUrl = imageUrl;
-    return trendsObject;
-  } catch (error: any) {
-    console.error(error?.response?.data?.error);
-  }
-}
-
 export async function createArtworkDescription(hashtags: Artwork["hashtags"]) {
   const max_tokens = 30;
   const request = `Create a single, complete sentence description in ${max_tokens} characters or less, without profanity, based on as many of the following words / phrases as possible:`;
@@ -49,5 +29,26 @@ export async function createArtworkDescription(hashtags: Artwork["hashtags"]) {
     return response.data.choices[0].text || "";
   } catch (error: any) {
     console.error(error?.response?.data?.error);
+    return "";
+  }
+}
+
+export async function createArtwork(
+  artworkDescription: Artwork["description"]
+) {
+  try {
+    const prompt = `Create a ${getRandomArrayItem(
+      illustrationStyles
+    )} piece of artwork of the following scene: ${artworkDescription}`;
+
+    const response = await openai.createImage({
+      prompt,
+      n: 1,
+      size: "512x512",
+    });
+    return response.data.data[0].url || "";
+  } catch (error: any) {
+    console.error(error?.response?.data?.error);
+    return "";
   }
 }

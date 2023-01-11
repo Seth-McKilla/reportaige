@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import clientPromise from "@/lib/mongodb";
-import { createArtworkDescription } from "@/lib/openai";
+import { createArtwork, createArtworkDescription } from "@/lib/openai";
 import { getTrendingTopics, processTrends } from "@/lib/twitter";
 import { fetchCollection } from "@/utils/api";
 
@@ -25,15 +25,25 @@ export default async function handler(
     })) as CityInfo;
 
     const trendingTopics = await getTrendingTopics(cityInfo.twitterLocationId);
-
     if (!trendingTopics) {
-      return res.status(404).json({ error: "No trending topics found" });
+      throw new Error("Failed to fetch trending topics");
     }
 
     const { totalTweets, hashtags } = processTrends(trendingTopics);
+    if (!totalTweets || !hashtags) {
+      throw new Error("Failed to process trends");
+    }
+
     const artworkDescription = await createArtworkDescription(hashtags);
+    if (!artworkDescription) {
+      throw new Error("Failed to create artwork description");
+    }
+
+    const artworkImageUrl = await createArtwork(artworkDescription);
   } catch (error: any) {
     console.error(error?.response?.data?.error || error);
-    return res.status(500).json({ error: "Oops! Something went wrong." });
+    return res
+      .status(500)
+      .json({ error: error?.response?.data?.error?.message || error?.message });
   }
 }

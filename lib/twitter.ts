@@ -1,5 +1,5 @@
-const apiKey = process.env.TWITTER_BEARER_TOKEN!;
-const apiUrl = "https://api.twitter.com/1.1/";
+const twitterBearerToken = process.env.TWITTER_BEARER_TOKEN!;
+const twitterApiUrl = "https://api.twitter.com/1.1/";
 
 export type Trend = {
   name: string;
@@ -12,10 +12,10 @@ export type Trend = {
 export async function getTrendingTopics(twitterLocationId: number) {
   try {
     const response = await fetch(
-      `${apiUrl}/trends/place.json?id=${twitterLocationId}`,
+      `${twitterApiUrl}/trends/place.json?id=${twitterLocationId}`,
       {
         headers: {
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: `Bearer ${twitterBearerToken}`,
         },
       }
     );
@@ -35,8 +35,9 @@ export async function getTrendingTopics(twitterLocationId: number) {
         tweet_volume,
         url,
       })) as Trend[];
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    console.error(error?.response?.data?.error);
+    return "";
   }
 }
 
