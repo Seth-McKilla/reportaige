@@ -24,7 +24,7 @@ export async function createArtworkDescription(
   try {
     const response = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: `${prompt} ${hashtags.join(", ")}.`,
+      prompt,
       temperature: 0,
       max_tokens,
     });

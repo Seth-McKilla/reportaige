@@ -4,7 +4,6 @@ type Artwork = {
   description: string;
   totalTweets: number;
   hashtags: string[];
-  isActive: boolean;
   createdAt: Date;
 };
 

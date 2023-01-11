@@ -39,7 +39,6 @@ export default async function handler(
     const file = new File([blob], imgFilename, {
       type: "image/jpeg",
     });
-
     await uploadFile(file);
 
     const artwork: Artwork = {
@@ -48,7 +47,6 @@ export default async function handler(
       description,
       totalTweets,
       hashtags,
-      isActive: true,
       createdAt: new Date(),
     };
     const artworkCollection = await fetchCollection(clientPromise, "artwork");
