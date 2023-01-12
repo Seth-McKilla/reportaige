@@ -11,8 +11,8 @@ const openai = new OpenAIApi(configuration);
 export async function createArtworkDescription(
   hashtags: Artwork["hashtags"]
 ): Promise<string> {
-  const max_tokens = 30;
-  const request = `Create a single, complete sentence description in ${max_tokens} characters or less, without profanity, based on as many of the following words and phrases as possible:`;
+  const max_tokens = 100;
+  const request = `Create a single, complete sentence description in ${max_tokens} characters or less, without profanity or any text that is not allowed by your safety system, based on as many of the following words and phrases as possible:`;
 
   const inputWords = hashtags.reduce((acc, hashtag) => {
     const word = toLowerSpaceCase(hashtag);
