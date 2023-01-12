@@ -36,10 +36,12 @@ export default async function handler(
 
     const description = await createArtworkDescription(hashtags);
     const artworkImageUrl = await createArtwork(description);
-    console.log(artworkImageUrl);
 
     const response = await fetch(artworkImageUrl);
     const blob = await response.blob();
+
+    // TODO: Fix error handling of uploadBlob
+    // (Currently consoles error but still creates artwork document)
 
     const imgFilename = `${city}-${Date.now()}.jpeg`;
     await uploadBlob(blob, imgFilename);
@@ -54,6 +56,9 @@ export default async function handler(
     };
     const artworkCollection = await fetchCollection(clientPromise, "artwork");
     await artworkCollection.insertOne(artwork);
+
+    // TODO: Fire off a tweet of the location, description and artwork image
+    // (Create another lib for this)
 
     return res.status(201).json({ data: artwork });
   } catch (error: any) {
