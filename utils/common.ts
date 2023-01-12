@@ -1,3 +1,7 @@
+export const removeSpecialChars = (str: string) => {
+  return str.replace(/[^a-zA-Z ]/g, "");
+};
+
 export const toTitleCase = (str: string) => {
   return str
     .split("-")

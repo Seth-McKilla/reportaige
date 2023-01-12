@@ -12,7 +12,7 @@ export async function createArtworkDescription(
   hashtags: Artwork["hashtags"]
 ): Promise<string> {
   const max_tokens = 50;
-  const request = `Create a single, complete sentence description in ${max_tokens} characters or less, without profanity or any text that is not allowed by your safety system, based on as many of the following words and phrases as possible:`;
+  const request = `Create a single sentence story in ${max_tokens} characters or less, without profanity, using five randomly chosen words or phrases from the following list: `;
 
   const inputWords = hashtags.reduce((acc, hashtag) => {
     const word = toLowerSpaceCase(hashtag);
@@ -42,7 +42,7 @@ export async function createArtwork(
   try {
     const prompt = `Create a ${getRandomArrayItem(
       illustrationStyles
-    )} piece of artwork of the following scene: ${artworkDescription}`;
+    )} type piece of artwork of the following scene. ${artworkDescription}`;
 
     const response = await openai.createImage({
       prompt,

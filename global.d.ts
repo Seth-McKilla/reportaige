@@ -9,7 +9,7 @@ type Artwork = {
 
 type City =
   | "berlin"
-  | "cairo"
+  | "cape-town"
   | "london"
   | "mumbai"
   | "new-york-city"
