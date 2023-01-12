@@ -17,27 +17,25 @@ export default function Dashboard({ citiesWithArtwork }: Props) {
     selectedCity && findCity(selectedCity, citiesWithArtwork);
 
   return (
-    <main>
-      <div className="flex">
-        <div className="flex flex-col m-4">
-          <Globe
-            citiesWithArtwork={citiesWithArtwork}
-            cityWithArtwork={cityWithArtwork}
-          />
-          <CityOptionsList
-            selectedCity={selectedCity}
-            setSelectedCity={setSelectedCity}
-            citiesWithArtwork={citiesWithArtwork}
-          />
-        </div>
-        <div className="flex flex-col items-start m-4">
-          <Artwork cityWithArtwork={cityWithArtwork} />
-          {cityWithArtwork && (
-            <p className="w-full mt-4 text-center max-w-[512px]">
-              {cityWithArtwork.artwork.description}
-            </p>
-          )}
-        </div>
+    <main className="flex flex-col justify-center lg:flex-row">
+      <div className="flex flex-col justify-center m-4">
+        <Globe
+          citiesWithArtwork={citiesWithArtwork}
+          cityWithArtwork={cityWithArtwork}
+        />
+        <CityOptionsList
+          selectedCity={selectedCity}
+          setSelectedCity={setSelectedCity}
+          citiesWithArtwork={citiesWithArtwork}
+        />
+      </div>
+      <div className="flex flex-col items-start m-4">
+        <Artwork cityWithArtwork={cityWithArtwork} />
+        {cityWithArtwork && (
+          <p className="w-full mt-4 text-center max-w-[512px]">
+            {cityWithArtwork.artwork.description}
+          </p>
+        )}
       </div>
     </main>
   );

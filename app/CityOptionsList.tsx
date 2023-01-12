@@ -12,7 +12,7 @@ export default function CityOptionsList({
   citiesWithArtwork,
 }: Props) {
   return (
-    <div className="grid justify-center grid-cols-3 gap-1">
+    <div className="grid justify-center grid-cols-2 gap-1 sm:grid-cols-3">
       {citiesWithArtwork.map(({ name: city }) => {
         let buttonStyle =
           "px-1 py-1 text-sm font-semibold bg-white border border-gray-800 rounded-sm hover:bg-gray-200";

@@ -80,10 +80,10 @@ export default function Globe({ cityWithArtwork, citiesWithArtwork }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cityWithArtwork]);
   return (
-    <div className="flex mb-6 align-top">
+    <div className="flex mb-6 align-top w-full h-full sm:w-[512px] sm:h-[512px]">
       <canvas
         ref={canvasRef}
-        style={{ width: 500, height: 500, aspectRatio: 1 }}
+        style={{ width: "100%", height: "100%", aspectRatio: 1 }}
       />
     </div>
   );

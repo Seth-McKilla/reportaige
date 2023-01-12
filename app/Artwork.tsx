@@ -6,7 +6,7 @@ type Props = {
 
 export default function Artwork({ cityWithArtwork }: Props) {
   let containerStyles =
-    "flex items-center justify-center text-center rounded-lg w-[512px] h-[512px]";
+    "flex items-center justify-center text-center rounded-lg w-full h-full sm:w-[512px] sm:h-[512px]";
   let borderStyles = " border-4 border-gray-500 border-dashed";
   if (!cityWithArtwork) containerStyles += borderStyles;
 
@@ -16,8 +16,6 @@ export default function Artwork({ cityWithArtwork }: Props) {
         <Image
           src={cityWithArtwork.artwork.imgFilename}
           alt={cityWithArtwork.artwork.description || "Artwork"}
-          placeholder="blur"
-          blurDataURL={cityWithArtwork.artwork.imgFilename}
           width={512}
           height={512}
         />
