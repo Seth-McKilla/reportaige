@@ -2,20 +2,22 @@ import clientPromise from "@/lib/mongodb";
 import { fetchCollection } from "@/utils/api";
 
 export async function getAllArtwork() {
-  const artworkCollection = await fetchCollection(clientPromise, "artwork");
-  return await artworkCollection
+  const citiesCollection = await fetchCollection(clientPromise, "cities");
+  return await citiesCollection
     .aggregate([
-      { $sort: { createdAt: -1 } },
-      { $group: { _id: "$cityId", artwork: { $first: "$$ROOT" } } },
       {
         $lookup: {
-          from: "cities",
-          localField: "artwork.cityId",
-          foreignField: "_id",
-          as: "city",
+          from: "artwork",
+          let: { cityId: "$_id" },
+          pipeline: [
+            { $match: { $expr: { $eq: ["$cityId", "$$cityId"] } } },
+            { $sort: { createdAt: -1 } },
+            { $limit: 1 },
+          ],
+          as: "artwork",
         },
       },
-      { $unwind: "$city" },
+      { $unwind: "$artwork" },
     ])
     .toArray();
 }

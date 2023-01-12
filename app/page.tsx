@@ -2,7 +2,7 @@ import Dashboard from "./Dashboard";
 import { getAllArtwork } from "@/lib/api";
 
 export default async function Home() {
-  const artwork = await createArtwork();
+  const artwork = await getAllArtwork();
 
   return (
     <main>
@@ -14,12 +14,8 @@ export default async function Home() {
         </p>
       </div>
       <div className="flex justify-center h-full">
-        {/* <Dashboard artworkByCity={artworkByCity} /> */}
+        {/* <Dashboard artwork={artwork} /> */}
       </div>
     </main>
   );
-}
-
-async function createArtwork() {
-  return await getAllArtwork();
 }
