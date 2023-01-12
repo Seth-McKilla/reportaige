@@ -1,7 +1,7 @@
 import createGlobe, { type Marker } from "cobe";
 import { useEffect, useRef } from "react";
 
-import { findCity, locationToAngles } from "@/utils/location";
+import { locationToAngles } from "@/utils/location";
 
 type Props = {
   cityWithArtwork: CityWithArtwork | null;

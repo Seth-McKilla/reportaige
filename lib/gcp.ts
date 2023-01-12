@@ -1,6 +1,7 @@
 import { Storage } from "@google-cloud/storage";
 
-import { bufferStream } from "@/utils/api";
+import clientPromise from "@/lib/mongodb";
+import { bufferStream, fetchCollection } from "@/utils/api";
 
 const storage = new Storage({
   projectId: process.env.GCP_PROJECT_ID,
@@ -28,4 +29,40 @@ export async function uploadBlob(blob: Blob, imgFilename: string) {
   } catch (error) {
     console.error(error);
   }
+}
+
+export async function getAllArtwork(): Promise<CityWithArtwork[]> {
+  const citiesCollection = await fetchCollection(clientPromise, "cities");
+  const citiesWithArtworkJSON = await citiesCollection
+    .aggregate([
+      {
+        $lookup: {
+          from: "artwork",
+          let: { cityId: "$_id" },
+          pipeline: [
+            { $match: { $expr: { $eq: ["$cityId", "$$cityId"] } } },
+            { $sort: { createdAt: -1 } },
+            { $limit: 1 },
+          ],
+          as: "artwork",
+        },
+      },
+      { $unwind: "$artwork" },
+    ])
+    .toArray();
+
+  const citiesWithArtwork = JSON.parse(JSON.stringify(citiesWithArtworkJSON));
+
+  const bucket = storage.bucket(bucketName);
+  return await Promise.all(
+    citiesWithArtwork.map(async (cityWithArtwork: CityWithArtwork) => {
+      const file = bucket.file(cityWithArtwork.artwork.imgFilename);
+      const [signedURL] = await file.getSignedUrl({
+        action: "read",
+        expires: "01-01-2500",
+      });
+      cityWithArtwork.artwork.imgFilename = signedURL;
+      return cityWithArtwork;
+    })
+  );
 }
