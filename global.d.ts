@@ -24,3 +24,7 @@ type CityInfo = {
   lat: number;
   lng: number;
 };
+
+type CityWithArtwork = CityInfo & {
+  artwork: Artwork;
+};
