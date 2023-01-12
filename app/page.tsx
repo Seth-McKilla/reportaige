@@ -1,7 +1,8 @@
-// import Dashboard from "./Dashboard";
+import Dashboard from "./Dashboard";
+import { getAllArtwork } from "@/lib/api";
 
 export default async function Home() {
-  await createArtwork();
+  const artwork = await createArtwork();
 
   return (
     <main>
@@ -20,10 +21,5 @@ export default async function Home() {
 }
 
 async function createArtwork() {
-  await fetch("http://localhost:3000/api/artwork/cape-town", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  return await getAllArtwork();
 }
