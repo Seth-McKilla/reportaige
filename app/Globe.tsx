@@ -1,29 +1,27 @@
 import createGlobe, { type Marker } from "cobe";
 import { useEffect, useRef } from "react";
 
-import { cities, type City } from "@/data/cities";
-import type { ArtworkScenesByCity } from "@/lib/openai";
 import { findCity, locationToAngles } from "@/utils/location";
 
 type Props = {
-  artworkByCity: ArtworkScenesByCity;
-  selectedCity: City | null;
+  cityWithArtwork: CityWithArtwork | null;
+  citiesWithArtwork: CityWithArtwork[];
 };
 
-export default function Globe({ artworkByCity, selectedCity }: Props) {
-  const totalTweetCount = Object.values(artworkByCity).reduce(
-    (acc, { totalTweets }) => acc + (totalTweets || 0),
-    0
-  );
-
-  const markers = cities.map(({ name, lat, lng }) => ({
-    location: [lat, lng],
-    size: (artworkByCity[name].totalTweets! / totalTweetCount) * 3,
-  })) as Marker[];
-
+export default function Globe({ cityWithArtwork, citiesWithArtwork }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const focusRef = useRef([0, 0]);
   const rotation = useRef({ phi: 0, theta: 0 });
+
+  const totalTweetCount = citiesWithArtwork.reduce(
+    (acc, city) => acc + city.artwork.totalTweets,
+    0
+  );
+
+  const markers = citiesWithArtwork.map((city) => ({
+    location: [city.lat, city.lng],
+    size: (city.artwork.totalTweets / totalTweetCount) * 3,
+  })) as Marker[];
 
   useEffect(() => {
     let width = 0;
@@ -51,7 +49,7 @@ export default function Globe({ artworkByCity, selectedCity }: Props) {
         state.phi = rotation.current.phi;
         state.theta = rotation.current.theta;
 
-        if (!selectedCity) {
+        if (!cityWithArtwork) {
           rotation.current.phi += 0.005;
         } else {
           const [focusPhi, focusTheta] = focusRef.current;
@@ -70,15 +68,17 @@ export default function Globe({ artworkByCity, selectedCity }: Props) {
           state.width = width * 2;
           state.height = width * 2;
 
-          const { lat, lng } = findCity(selectedCity);
-          focusRef.current = locationToAngles(lat, lng);
+          focusRef.current = locationToAngles(
+            cityWithArtwork.lat,
+            cityWithArtwork.lng
+          );
         }
       },
     });
     setTimeout(() => (canvasRef.current!.style.opacity = "1"));
     return () => globe.destroy();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCity]);
+  }, [cityWithArtwork]);
   return (
     <div className="flex mb-6 align-top">
       <canvas

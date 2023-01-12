@@ -1,7 +1,7 @@
 import clientPromise from "@/lib/mongodb";
 import { fetchCollection } from "@/utils/api";
 
-export async function getAllArtwork() {
+export async function getAllArtwork(): Promise<CityWithArtwork[]> {
   const citiesCollection = await fetchCollection(clientPromise, "cities");
   return await citiesCollection
     .aggregate([
