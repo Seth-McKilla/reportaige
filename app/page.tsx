@@ -1,4 +1,5 @@
 import Dashboard from "./Dashboard";
+import Footer from "./Footer";
 import { getAllArtwork } from "@/lib/gcp";
 
 export default async function Home() {
@@ -16,6 +17,7 @@ export default async function Home() {
       <div className="flex justify-center">
         <Dashboard citiesWithArtwork={citiesWithArtwork} />
       </div>
+      <Footer />
     </main>
   );
 }
