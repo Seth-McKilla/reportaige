@@ -1,15 +1,20 @@
 import type { ObjectId } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { uploadFile } from "@/lib/gcp";
+import { uploadBlob } from "@/lib/gcp";
 import clientPromise from "@/lib/mongodb";
 import { createArtwork, createArtworkDescription } from "@/lib/openai";
 import { getTrendingTopics, processTrends } from "@/lib/twitter";
 import { fetchCollection } from "@/utils/api";
 
+type Data = {
+  data?: Artwork;
+  error?: string;
+};
+
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<Data>
 ) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
@@ -31,15 +36,13 @@ export default async function handler(
 
     const description = await createArtworkDescription(hashtags);
     const artworkImageUrl = await createArtwork(description);
+    console.log(artworkImageUrl);
 
     const response = await fetch(artworkImageUrl);
     const blob = await response.blob();
 
     const imgFilename = `${city}-${Date.now()}.jpeg`;
-    const file = new File([blob], imgFilename, {
-      type: "image/jpeg",
-    });
-    await uploadFile(file);
+    await uploadBlob(blob, imgFilename);
 
     const artwork: Artwork = {
       cityId: cityInfo._id,
@@ -52,7 +55,7 @@ export default async function handler(
     const artworkCollection = await fetchCollection(clientPromise, "artwork");
     await artworkCollection.insertOne(artwork);
 
-    return res.status(201).json({ artwork });
+    return res.status(201).json({ data: artwork });
   } catch (error: any) {
     console.error(error?.response?.data?.error || error);
     return res

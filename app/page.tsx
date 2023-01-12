@@ -1,8 +1,7 @@
-import Dashboard from "./Dashboard";
-import type { ArtworkScenesByCity } from "@/lib/openai";
+// import Dashboard from "./Dashboard";
 
 export default async function Home() {
-  // const artworkByCity = await getArtworkByCity();
+  await createArtwork();
 
   return (
     <main>
@@ -20,12 +19,11 @@ export default async function Home() {
   );
 }
 
-// async function getArtworkByCity() {
-//   const response = await fetch(`${process.env.APP_URL!}/api/openai/artwork`, {
-//     next: {
-//       revalidate: 24 * 60 * 60, // 24 hours
-//     },
-//   });
-//   const { data } = await response.json();
-//   return data as ArtworkScenesByCity;
-// }
+async function createArtwork() {
+  await fetch("http://localhost:3000/api/artwork/berlin", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
