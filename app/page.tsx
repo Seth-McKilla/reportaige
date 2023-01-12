@@ -3,7 +3,6 @@ import { getAllArtwork } from "@/lib/gcp";
 
 export default async function Home() {
   const citiesWithArtwork = await getAllArtwork();
-  console.log(citiesWithArtwork);
 
   return (
     <main>
