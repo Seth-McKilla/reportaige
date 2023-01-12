@@ -20,7 +20,7 @@ export default async function Home() {
 }
 
 async function createArtwork() {
-  await fetch("http://localhost:3000/api/artwork/mumbai", {
+  await fetch("http://localhost:3000/api/artwork/johannesburg", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
