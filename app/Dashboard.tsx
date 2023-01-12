@@ -17,8 +17,8 @@ export default function Dashboard({ citiesWithArtwork }: Props) {
     selectedCity && findCity(selectedCity, citiesWithArtwork);
 
   return (
-    <main className="flex flex-col justify-center lg:flex-row">
-      <div className="flex flex-col justify-center m-4">
+    <main className="flex flex-col-reverse items-center justify-center lg:flex-row">
+      <div className="flex flex-col-reverse justify-center m-4 lg:flex-col">
         <Globe
           citiesWithArtwork={citiesWithArtwork}
           cityWithArtwork={cityWithArtwork}
@@ -29,10 +29,10 @@ export default function Dashboard({ citiesWithArtwork }: Props) {
           citiesWithArtwork={citiesWithArtwork}
         />
       </div>
-      <div className="flex flex-col items-start m-4">
+      <div className="flex flex-col items-center justify-center m-4">
         <Artwork cityWithArtwork={cityWithArtwork} />
         {cityWithArtwork && (
-          <p className="w-full mt-4 text-center max-w-[512px]">
+          <p className="mt-4 text-center max-w-[512px]">
             {cityWithArtwork.artwork.description}
           </p>
         )}

@@ -5,10 +5,9 @@ type Props = {
 };
 
 export default function Artwork({ cityWithArtwork }: Props) {
-  let containerStyles =
-    "flex items-center justify-center text-center rounded-lg w-full h-full sm:w-[512px] sm:h-[512px]";
-  let borderStyles = " border-4 border-gray-500 border-dashed";
-  if (!cityWithArtwork) containerStyles += borderStyles;
+  let containerStyles = `relative flex items-center justify-center h-[385px] w-[385px] sm:h-[512px] sm:w-[512px] ${
+    !cityWithArtwork && "border-4 border-gray-500 border-dashed"
+  }`;
 
   return (
     <div className={containerStyles}>
@@ -16,8 +15,11 @@ export default function Artwork({ cityWithArtwork }: Props) {
         <Image
           src={cityWithArtwork.artwork.imgFilename}
           alt={cityWithArtwork.artwork.description || "Artwork"}
-          width={512}
-          height={512}
+          fill
+          sizes="(max-width: 640px) 385px, 512px"
+          style={{
+            objectFit: "contain",
+          }}
         />
       ) : (
         <p className="text-xl font-semibold text-gray-600">Select a City</p>
