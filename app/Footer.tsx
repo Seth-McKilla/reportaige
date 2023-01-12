@@ -2,7 +2,7 @@ export default function Footer() {
   return (
     <div className="py-4 text-center text-black">
       <a
-        href="https://github.com/seth/my-project"
+        href="https://github.com/Seth-McKilla/reportaige"
         target="_blank"
         rel="noopener noreferrer"
         className="underline text-md hover:text-gray-800"
