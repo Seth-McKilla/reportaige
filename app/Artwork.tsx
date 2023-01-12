@@ -1,25 +1,23 @@
 import Image from "next/image";
 
-import type { FormattedTrend } from "@/lib/openai";
-
 type Props = {
-  artworkInfo: FormattedTrend | null;
+  cityWithArtwork: CityWithArtwork | null;
 };
 
-export default function Artwork({ artworkInfo }: Props) {
+export default function Artwork({ cityWithArtwork }: Props) {
   let containerStyles =
     "flex items-center justify-center text-center rounded-lg w-[512px] h-[512px]";
   let borderStyles = " border-4 border-gray-500 border-dashed";
-  if (!artworkInfo) containerStyles += borderStyles;
+  if (!cityWithArtwork) containerStyles += borderStyles;
 
   return (
     <div className={containerStyles}>
-      {artworkInfo?.imageUrl ? (
+      {cityWithArtwork ? (
         <Image
-          src={artworkInfo.imageUrl}
-          alt={artworkInfo.description || "Artwork"}
+          src={cityWithArtwork.artwork.imgFilename}
+          alt={cityWithArtwork.artwork.description || "Artwork"}
           placeholder="blur"
-          blurDataURL={artworkInfo.imageUrl}
+          blurDataURL={cityWithArtwork.artwork.imgFilename}
           width={512}
           height={512}
         />

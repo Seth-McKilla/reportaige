@@ -1,18 +1,19 @@
-import { cities, type City } from "@/data/cities";
 import { toTitleCase } from "@/utils/common";
 
 type Props = {
   selectedCity: City | null;
   setSelectedCity: (city: City | null) => void;
+  citiesWithArtwork: CityWithArtwork[];
 };
 
 export default function CityOptionsList({
   selectedCity,
   setSelectedCity,
+  citiesWithArtwork,
 }: Props) {
   return (
     <div className="grid justify-center grid-cols-3 gap-1">
-      {cities.map(({ name: city }) => {
+      {citiesWithArtwork.map(({ name: city }) => {
         let buttonStyle =
           "px-1 py-1 text-sm font-semibold bg-white border border-gray-800 rounded-sm hover:bg-gray-200";
         if (selectedCity === city)

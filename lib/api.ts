@@ -3,7 +3,7 @@ import { fetchCollection } from "@/utils/api";
 
 export async function getAllArtwork(): Promise<CityWithArtwork[]> {
   const citiesCollection = await fetchCollection(clientPromise, "cities");
-  return await citiesCollection
+  const citiesWithArtwork = await citiesCollection
     .aggregate([
       {
         $lookup: {
@@ -20,4 +20,6 @@ export async function getAllArtwork(): Promise<CityWithArtwork[]> {
       { $unwind: "$artwork" },
     ])
     .toArray();
+
+  return JSON.parse(JSON.stringify(citiesWithArtwork));
 }

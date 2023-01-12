@@ -27,13 +27,14 @@ export default function Dashboard({ citiesWithArtwork }: Props) {
           <CityOptionsList
             selectedCity={selectedCity}
             setSelectedCity={setSelectedCity}
+            citiesWithArtwork={citiesWithArtwork}
           />
         </div>
         <div className="flex flex-col items-start m-4">
-          <Artwork artworkInfo={cityWithArtwork} />
+          <Artwork cityWithArtwork={cityWithArtwork} />
           {cityWithArtwork && (
             <p className="w-full mt-4 text-center max-w-[512px]">
-              {cityWithArtwork.description}
+              {cityWithArtwork.artwork.description}
             </p>
           )}
         </div>
