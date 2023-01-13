@@ -52,5 +52,8 @@ if (process.env.NODE_ENV !== "development") {
 ...
 ```
 
+## Example `/api/artwork` response
+Check out the [example response data](./data/artwork-api-response-example.json) to see the `/api/artwork` API response data structure.
+
 ## License
 The MIT License.
