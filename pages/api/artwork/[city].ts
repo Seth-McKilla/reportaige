@@ -62,6 +62,11 @@ export default async function handler(
     const artworkCollection = await fetchCollection(clientPromise, "artwork");
     await artworkCollection.insertOne(artwork);
 
+    // Redeploy the site to update the artwork
+    await fetch(process.env.VERCEL_DEPLOY_HOOK_URL!, {
+      method: "POST",
+    });
+
     // TODO: Fire off a tweet of the location, description and artwork image
     // (Create another lib for this)
 
