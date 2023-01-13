@@ -1,4 +1,4 @@
-export const illustrationStyles = [
+const illustrationStyles = [
   "realism",
   "abstract",
   "surrealism",
@@ -33,3 +33,5 @@ export const illustrationStyles = [
   "mixed-media",
   "collage",
 ];
+
+export default illustrationStyles;

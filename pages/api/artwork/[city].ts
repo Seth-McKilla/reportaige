@@ -1,6 +1,7 @@
 import type { ObjectId } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import cities from "@/constants/cities";
 import { uploadBlob } from "@/lib/gcp";
 import clientPromise from "@/lib/mongodb";
 import { createArtwork, createArtworkDescription } from "@/lib/openai";
@@ -25,7 +26,7 @@ export default async function handler(
   }
 
   const city = req.query.city as City;
-  if (!city) {
+  if (!city || !cities.includes(city)) {
     return res.status(400).json({ error: "Bad Request" });
   }
 

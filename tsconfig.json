@@ -20,6 +20,7 @@
       }
     ],
     "paths": {
+      "@/constants/*": ["./constants/*"],
       "@/data/*": ["./data/*"],
       "@/lib/*": ["./lib/*"],
       "@/utils/*": ["./utils/*"]

@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from "openai";
 
-import { illustrationStyles } from "@/data/openai";
+import illustrationStyles from "@/constants/illustrationStyles";
 import { getRandomArrayItem, toLowerSpaceCase } from "@/utils/common";
 
 const configuration = new Configuration({
