@@ -63,9 +63,11 @@ export default async function handler(
     await artworkCollection.insertOne(artwork);
 
     // Redeploy the site to update the artwork
-    await fetch(process.env.VERCEL_DEPLOY_HOOK_URL!, {
-      method: "POST",
-    });
+    if (process.env.NODE_ENV !== "development") {
+      await fetch(process.env.VERCEL_DEPLOY_HOOK_URL!, {
+        method: "POST",
+      });
+    }
 
     // TODO: Fire off a tweet of the location, description and artwork image
     // (Create another lib for this)
