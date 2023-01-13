@@ -3,8 +3,14 @@
 
 ![reportaige](https://user-images.githubusercontent.com/63591760/212368720-ac797f7f-7f85-47c9-bbe0-282b0fb112b1.png)
 
-
 ---
+
+## Table of Contents
+1. <a href="#getting-started"><strong>Getting Started</strong></a>
+2. <a href="#seeding-the-database"><strong>Seeding the Database</strong></a>
+3. <a href="#where-is-the-artwork-api-route-being-used"><strong>Where is the artwork API route being used?</strong></a>
+4. <a href="#example-artwork-api-response"><strong>Example artwork API reponse</strong></a>
+5. <a href="#license"><strong>License</strong></a>
 
 ## Getting started
 1. Fork and clone the repo to your local development environment.
@@ -30,15 +36,16 @@ pnpm dev
 ```
 12. Navigate to `http://localhost:3000`
 
-## Seed the database
+## Seeding the database
 Hit the `api/artwork` route with a `POST` request for each city to populate mongoDB and Google Cloud Storage with some data with the following script.
+
 ⚠️ Make sure you have completed all the above steps and your local development environment is running before running this ⚠️
 ```bash
 pnpm seed
 ```
 You should be good to go now. Happy coding 😁
 
-## Where is `/api/artwork` route being used?
+## Where is the artwork api route being used?
 You may have noticed that the api route `/api/artwork` is never called within our NextJS app. This endpoint is hit at 12pm local time for each city using [Slater](https://tryslater.com) cron jobs. Once the api route is hit, a Vercel deploy hook is called to rebuild the application:
 ```tsx
 // pages/api/artwork
@@ -52,8 +59,42 @@ if (process.env.NODE_ENV !== "development") {
 ...
 ```
 
-## Example `/api/artwork` response
-Check out the [example response data](./data/artwork-api-response-example.json) to see the `/api/artwork` API response data structure.
+## Example artwork api response
+Check out the [example response data](./data/artwork-api-response-example.json) to see an actual example of the `/api/artwork` response data.
+The structure is an array of the following objects (one for each city):
+```json
+{
+  "_id": "63befd9ee007932fb0a9ec17",
+  "name": "berlin",
+  "twitterLocationId": 638242,
+  "lat": 52.520008,
+  "lng": 13.404954,
+  "artwork": {
+    "_id": "63bf5c4685b772a8cb284234",
+    "cityId": "63befd9ee007932fb0a9ec17",
+    "imgFilename": "berlin-1673485382080.jpeg",
+    "description": "Jeff Beck protestiert in Southampton für Kelly, Sinan, Rumung, Kohle, Lanz, Klimaterroristen und Luetzerath.",
+    "totalTweets": 657522,
+    "hashtags": [
+      "LOVE YOU ALBA",
+      "Jeff Beck",
+      "Southampton",
+      "Schiff",
+      "Luetzerath",
+      "Protest",
+      "KELLY SAVE OUR NUNS",
+      "Sinan",
+      "Räumung",
+      "Kohle",
+      "Lanz",
+      "Klimaterroristen",
+      "Merz"
+    ],
+    "createdAt": "2023-01-12T01:03:02.932Z"
+  }
+}
+```
 
 ## License
-The MIT License.
+
+This project is licensed under the [MIT License](./LICENSE)
