@@ -20,7 +20,7 @@ export default async function handler(
     return res.status(405).json({ error: "Method Not Allowed" });
   }
 
-  if (!req.query.apiKey || req.query.apiKey !== process.env.SLATER_SECRET) {
+  if (!req.query.apiKey || req.query.apiKey !== process.env.API_KEY) {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
