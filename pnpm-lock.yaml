@@ -19,6 +19,7 @@ specifiers:
   react-dom: 18.2.0
   tailwindcss: 3.2.4
   tsx: 3.12.2
+  twitter-api-sdk: 1.2.1
   typescript: 4.9.4
 
 dependencies:
@@ -36,6 +37,7 @@ dependencies:
   openai: 3.1.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  twitter-api-sdk: 1.2.1
   typescript: 4.9.4
 
 devDependencies:
@@ -3902,6 +3904,16 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /twitter-api-sdk/1.2.1:
+    resolution: {integrity: sha512-tNQ6DGYucFk94JlnUMsHCkHg5o1wnCdHh71Y2ukygNVssOdD1gNVjOpaojJrdwbEAhoZvcWdGHerCa55F8HKxQ==}
+    engines: {node: '>=14'}
+    dependencies:
+      abort-controller: 3.0.0
+      node-fetch: 2.6.7
+    transitivePeerDependencies:
+      - encoding
+    dev: false
 
   /type-check/0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}

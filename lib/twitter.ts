@@ -1,5 +1,8 @@
-const twitterBearerToken = process.env.TWITTER_BEARER_TOKEN!;
+import { Client } from "twitter-api-sdk";
+
 const twitterApiUrl = "https://api.twitter.com/1.1/";
+const twitterBearerToken = process.env.TWITTER_BEARER_TOKEN!;
+const twitter = new Client(twitterBearerToken);
 
 export type Trend = {
   name: string;
@@ -9,6 +12,7 @@ export type Trend = {
   tweet_volume: number;
 };
 
+// v1.1 API so cannot use the twitter-api-sdk
 export async function getTrendingTopics(
   twitterLocationId: number
 ): Promise<Trend[]> {
