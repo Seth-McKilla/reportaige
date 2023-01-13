@@ -61,3 +61,11 @@ export function processTrends(trends: Trend[]) {
     hashtags,
   };
 }
+
+// export function sendTweet(tweet: string) {
+//   return twitter.tweets.createTweet({
+//     status: {
+//       text: tweet,
+//     }
+//   })
+// }
