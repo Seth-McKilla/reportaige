@@ -2,13 +2,15 @@
   "name": "reportaige",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "lint:ts": "tsc --noEmit --incremental --watch",
-    "clear-all": "rimraf ./node_modules ./.next"
+    "clear-all": "rimraf ./node_modules ./.next",
+    "seed": "tsx ./scripts/seed_db.ts"
   },
   "dependencies": {
     "@google-cloud/storage": "^6.9.0",
@@ -30,6 +32,7 @@
   "devDependencies": {
     "autoprefixer": "10.4.13",
     "postcss": "8.4.20",
-    "tailwindcss": "3.2.4"
+    "tailwindcss": "3.2.4",
+    "tsx": "3.12.2"
   }
 }
