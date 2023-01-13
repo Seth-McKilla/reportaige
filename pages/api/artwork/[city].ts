@@ -5,7 +5,12 @@ import cities from "@/constants/cities";
 import { uploadBlob } from "@/lib/gcp";
 import clientPromise from "@/lib/mongodb";
 import { createArtwork, createArtworkDescription } from "@/lib/openai";
-import { getTrendingTopics, processTrends } from "@/lib/twitter";
+import {
+  getTrendingTopics,
+  processTrends,
+  sendTweetWithMedia,
+} from "@/lib/twitter";
+import { toTitleCase } from "@/utils/common";
 import { fetchCollection } from "@/utils/api";
 
 type Data = {
@@ -58,15 +63,19 @@ export default async function handler(
     const artworkCollection = await fetchCollection(clientPromise, "artwork");
     await artworkCollection.insertOne(artwork);
 
-    // Redeploy the site to update the artwork
     if (process.env.NODE_ENV !== "development") {
+      // Redeploy the site to update the artwork
       await fetch(process.env.VERCEL_DEPLOY_HOOK_URL!, {
         method: "POST",
       });
-    }
 
-    // TODO: Fire off a tweet of the location, description and artwork image
-    // (Create another lib for this)
+      await sendTweetWithMedia(
+        `Here's a new piece of AI generated art for trending topics in ${toTitleCase(
+          city
+        )}! I've titled this piece: "${description}"`,
+        blob
+      );
+    }
 
     return res.status(201).json({ data: artwork });
   } catch (error: any) {

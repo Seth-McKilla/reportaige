@@ -60,7 +60,7 @@ export function processTrends(trends: Trend[]) {
   };
 }
 
-export async function sendTweetWithMedia(text: any, image: any) {
+export async function sendTweetWithMedia(text: string, image: Blob) {
   try {
     const formData = new FormData();
     formData.append("media", image);
@@ -97,14 +97,7 @@ export async function sendTweetWithMedia(text: any, image: any) {
       }),
     });
 
-    const tweetData = await tweetResponse.json();
-    const tweetId = tweetData?.id_str;
-
-    if (!tweetId) {
-      throw new Error("No tweet ID found");
-    }
-
-    return tweetId;
+    return await tweetResponse.json();
   } catch (error: any) {
     console.error(error?.response?.data?.error || error);
     return error?.response?.data?.error?.message || error?.message;
