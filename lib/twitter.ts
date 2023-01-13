@@ -1,8 +1,7 @@
-import { Client } from "twitter-api-sdk";
+import { FormData } from "formdata-node";
 
 const twitterApiUrl = "https://api.twitter.com/1.1/";
 const twitterBearerToken = process.env.TWITTER_BEARER_TOKEN!;
-const twitter = new Client(twitterBearerToken);
 
 export type Trend = {
   name: string;
@@ -12,7 +11,6 @@ export type Trend = {
   tweet_volume: number;
 };
 
-// v1.1 API so cannot use the twitter-api-sdk
 export async function getTrendingTopics(
   twitterLocationId: number
 ): Promise<Trend[]> {
@@ -62,10 +60,53 @@ export function processTrends(trends: Trend[]) {
   };
 }
 
-// export function sendTweet(tweet: string) {
-//   return twitter.tweets.createTweet({
-//     status: {
-//       text: tweet,
-//     }
-//   })
-// }
+export async function sendTweetWithMedia(text: any, image: any) {
+  try {
+    const formData = new FormData();
+    formData.append("media", image);
+
+    const response = await fetch(
+      `${twitterApiUrl}/media/upload.json?media_category=tweet_image`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${twitterBearerToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+        // @ts-ignore
+        body: formData,
+      }
+    );
+
+    const data = await response.json();
+    const mediaId = data?.media_id_string;
+
+    if (!mediaId) {
+      throw new Error("No media ID found");
+    }
+
+    const tweetResponse = await fetch(`${twitterApiUrl}/statuses/update.json`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${twitterBearerToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        status: text,
+        media_ids: mediaId,
+      }),
+    });
+
+    const tweetData = await tweetResponse.json();
+    const tweetId = tweetData?.id_str;
+
+    if (!tweetId) {
+      throw new Error("No tweet ID found");
+    }
+
+    return tweetId;
+  } catch (error: any) {
+    console.error(error?.response?.data?.error || error);
+    return error?.response?.data?.error?.message || error?.message;
+  }
+}
