@@ -10,7 +10,9 @@
 2. <a href="#seeding-the-database"><strong>Seeding the Database</strong></a>
 3. <a href="#where-is-the-artwork-api-route-being-used"><strong>Where is the artwork API route being used?</strong></a>
 4. <a href="#example-artwork-api-response"><strong>Example artwork API reponse</strong></a>
-5. <a href="#license"><strong>License</strong></a>
+5. <a href="#acknowledgements"><strong>Acknowledgements</strong></a>
+6. <a href="#license"><strong>License</strong></a>
+
 
 ## Getting started
 1. Fork and clone the repo to your local development environment.
@@ -94,6 +96,14 @@ The structure is an array of the following objects (one for each city):
   }
 }
 ```
+
+## Acknowledgements
+
+This project was created by Seth.
+
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/sethmckilla.svg?style=social&label=Follow%20%40sethmckilla)](https://twitter.com/sethmckilla)
+
+Additional contributors are more than welcome and encouraged!
 
 ## License
 
