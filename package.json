@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:ts": "tsc --noEmit --incremental --watch"
+    "lint:ts": "tsc --noEmit --incremental --watch",
+    "clear-all": "rimraf ./node_modules ./.next"
   },
   "dependencies": {
     "@google-cloud/storage": "^6.9.0",
