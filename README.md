@@ -30,8 +30,27 @@ pnpm dev
 ```
 12. Navigate to `http://localhost:3000`
 
-Happy coding 😁
+## Seed the database
+Hit the `api/artwork` route with a `POST` request for each city to populate mongoDB and Google Cloud Storage with some data with the following script.
+⚠️ Make sure you have completed all the above steps and your local development environment is running before running this ⚠️
+```bash
+pnpm seed
+```
+You should be good to go now. Happy coding 😁
+
+## Where is `/api/artwork` route being used?
+You may have noticed that the api route `/api/artwork` is never called within our NextJS app. This endpoint is hit at 12pm local time for each city using [Slater](https://tryslater.com) cron jobs. Once the api route is hit, a Vercel deploy hook is called to rebuild the application:
+```tsx
+// pages/api/artwork
+
+...
+if (process.env.NODE_ENV !== "development") {
+  await fetch(process.env.VERCEL_DEPLOY_HOOK_URL!, {
+    method: "POST",
+  });
+}
+...
+```
 
 ## License
-
 The MIT License.
