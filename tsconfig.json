@@ -23,6 +23,7 @@
       "@/constants/*": ["./constants/*"],
       "@/data/*": ["./data/*"],
       "@/lib/*": ["./lib/*"],
+      "@/icons/*": ["./app/icons/*"],
       "@/utils/*": ["./utils/*"]
     }
   },
