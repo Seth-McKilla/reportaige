@@ -1,4 +1,5 @@
-<h1 align="center" font-size="32px">reportAIge</h1>
+<h1 align="center">reportAIge</h1>
+
 <p align="center">AI generated art based on trending Twitter topics from around the globe.</p>
 
 ![reportaige](https://user-images.githubusercontent.com/63591760/212368720-ac797f7f-7f85-47c9-bbe0-282b0fb112b1.png)
@@ -13,6 +14,7 @@
 5. <a href="#acknowledgements"><strong>Acknowledgements</strong></a>
 6. <a href="#license"><strong>License</strong></a>
 
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/reportaige.svg?style=social&label=Follow%20%40reportaige)](https://twitter.com/reportaige)
 
 ## Getting started
 1. Fork and clone the repo to your local development environment.
