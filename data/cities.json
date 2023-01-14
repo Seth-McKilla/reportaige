@@ -1,0 +1,56 @@
+[
+  {
+    "name": "berlin",
+    "twitterLocationId": 638242,
+    "lat": 52.520008,
+    "lng": 13.404954
+  },
+  {
+    "name": "cape-town",
+    "twitterLocationId": 1591691,
+    "lat": -33.918861,
+    "lng": 18.4233
+  },
+  {
+    "name": "london",
+    "twitterLocationId": 44418,
+    "lat": 51.507351,
+    "lng": -0.127758
+  },
+  {
+    "name": "mumbai",
+    "twitterLocationId": 2295411,
+    "lat": 19.075984,
+    "lng": 72.877656
+  },
+  {
+    "name": "new-york-city",
+    "twitterLocationId": 2459115,
+    "lat": 40.712775,
+    "lng": -74.005973
+  },
+  {
+    "name": "sao-paulo",
+    "twitterLocationId": 455819,
+    "lat": -23.55052,
+    "lng": -46.633309
+  },
+  {
+    "name": "san-francisco",
+    "twitterLocationId": 2487956,
+    "lat": 37.77493,
+    "lng": -122.419416
+  },
+  {
+    "name": "singapore",
+    "twitterLocationId": 23424948,
+    "lat": 1.352083,
+    "lng": 103.819836
+  },
+  {
+    "name": "sydney",
+    "twitterLocationId": 1105779,
+    "lat": -33.86882,
+    "lng": 151.20929
+  }
+]

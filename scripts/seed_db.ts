@@ -1,6 +1,13 @@
 import cities from "../constants/cities";
+import citiesJSON from "../data/cities.json";
+import clientPromise from "@/lib/mongodb";
+import { fetchCollection } from "@/utils/api";
 
 (async function seedDB() {
+  const citiesCollection = await fetchCollection(clientPromise, "cities");
+  await citiesCollection.deleteMany({});
+  await citiesCollection.insertMany(citiesJSON);
+
   await Promise.all(
     cities.map(async (city) => {
       try {
