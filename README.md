@@ -49,7 +49,7 @@ node
 > require('crypto').randomBytes(32).toString('hex')
 ```
 
-7. Update the `API-KEY` env var with the randomly generated string
+7. Update the `API_SECRET_KEY` env var with the randomly generated string
 8. Signup for a [Google Cloud Account](https://cloud.google.com/), create a new [Storage Bucket](https://cloud.google.com/storage/docs/creating-buckets#create_a_new_bucket), and create a new [Service Account](https://cloud.google.com/iam/docs/creating-managing-service-accounts#creating) with the Storage Object Admin role
 9. Update the `GCP_BUCKET_NAME`, `GCP_PROJECT_ID`, `GCP_CLIENT_EMAIL`, and `GCP_PRIVATE_KEY` env vars
 10. Create a [MongoDB Atlas database](https://www.mongodb.com/docs/atlas/getting-started/) and update the `MONGODB_URI` env var with the database connection string
