@@ -4,9 +4,11 @@ import clientPromise from "@/lib/mongodb";
 import { fetchCollection } from "@/utils/api";
 
 (async function seedDB() {
+  console.log("Seeding DB...");
   const citiesCollection = await fetchCollection(clientPromise, "cities");
   await citiesCollection.deleteMany({});
   await citiesCollection.insertMany(citiesJSON);
+  console.log("Seeded cities!");
 
   await Promise.all(
     cities.map(async (city) => {
@@ -17,9 +19,11 @@ import { fetchCollection } from "@/utils/api";
             method: "POST",
           }
         );
+        console.log(`Seeded ${city} artwork!`);
       } catch (error) {
         console.error(error);
       }
     })
   );
+  console.log("Done seeding DB!");
 })();
