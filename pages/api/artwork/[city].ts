@@ -44,12 +44,14 @@ export default async function handler(
     })) as CityInfo & { _id: ObjectId };
 
     const trendingTopics = await getTrendingTopics(cityInfo.twitterLocationId);
+    console.log("SUCCESSFULLY_FETCHED_TRENDS");
     const { totalTweets, hashtags } = processTrends(trendingTopics);
+    console.log("SUCCESSFULLY_PROCESSED_TRENDS");
 
     const description = await createArtworkDescription(hashtags);
-    console.log("ARTWORK_DESCRIPTION", description);
+    console.log("SUCCESSFULLY_CREATED_DESCRIPTION");
     const artworkImageUrl = await createArtwork(description);
-    console.log("ARTWORK_IMAGE_URL)", artworkImageUrl);
+    console.log("SUCCESSFULLY_CREATED_ARTWORK");
 
     const response = await fetch(artworkImageUrl);
     const artworkBlob = await response.blob();
@@ -59,6 +61,7 @@ export default async function handler(
 
     const imgFilename = `${city}-${Date.now()}.jpeg`;
     await uploadBlob(artworkBlob, imgFilename);
+    console.log("SUCCESSFULLY_UPLOADED_ARTWORK");
 
     const artwork: Artwork = {
       cityId: cityInfo._id,
@@ -70,22 +73,23 @@ export default async function handler(
     };
     const artworkCollection = await fetchCollection(clientPromise, "artwork");
     await artworkCollection.insertOne(artwork);
+    console.log("SUCCESSFULLY_CREATED_ARTWORK_DOCUMENT");
 
     if (process.env.NODE_ENV !== "development") {
-      // Redeploy the site to update the artwork
       await fetch(process.env.VERCEL_DEPLOY_HOOK_URL!, {
         method: "POST",
       });
-    }
+      console.log("SUCCESSFULLY_REDEPLOYED_SITE");
 
-    const tweetData = await sendTweetWithMedia(
-      `Hey #${city.replace(
-        "-",
-        ""
-      )}! I've created this #AI generated piece of artwork based on what's currently trending in your area. I call it "${description}" Created with #openai #dalle.`,
-      artworkBlob
-    );
-    console.log("TWEET_DATA", tweetData);
+      await sendTweetWithMedia(
+        `Hey #${city.replace(
+          "-",
+          ""
+        )}! I've created this #AI generated piece of artwork based on what's currently trending in your area. I call it "${description}" Created with #openai #dalle.`,
+        artworkBlob
+      );
+      console.log("SUCCESSFULLY_TWEETED_ARTWORK");
+    }
 
     return res.status(201).json({ data: artwork });
   } catch (error: any) {
