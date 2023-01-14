@@ -13,12 +13,12 @@ import { fetchCollection } from "@/utils/api";
   await Promise.all(
     cities.map(async (city) => {
       try {
-        await fetch(
-          `http://localhost:3000/api/artwork/${city}?apiKey=${process.env.API_KEY}`,
-          {
-            method: "POST",
-          }
-        );
+        await fetch(`http://localhost:3000/api/artwork/${city}`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${process.env.API_KEY}`,
+          },
+        });
         console.log(`Seeded ${city} artwork!`);
       } catch (error) {
         console.error(error);

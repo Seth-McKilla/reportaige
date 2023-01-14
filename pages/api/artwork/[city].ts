@@ -21,7 +21,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  if (!req.query.apiKey || req.query.apiKey !== process.env.API_KEY) {
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    return res.status(405).json({ error: "Method Not Allowed" });
+  }
+
+  const { authorization } = req.headers;
+
+  if (authorization !== `Bearer ${process.env.API_KEY}`) {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
