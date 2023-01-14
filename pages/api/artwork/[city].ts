@@ -21,15 +21,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
-    return res.status(405).json({ error: "Method Not Allowed" });
-  }
-
   const { authorization } = req.headers;
 
   if (authorization !== `Bearer ${process.env.API_SECRET_KEY}`) {
     return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    return res.status(405).json({ error: "Method Not Allowed" });
   }
 
   const city = req.query.city as City;
@@ -47,7 +47,9 @@ export default async function handler(
     const { totalTweets, hashtags } = processTrends(trendingTopics);
 
     const description = await createArtworkDescription(hashtags);
+    console.log("ARTWORK_DESCRIPTION", description);
     const artworkImageUrl = await createArtwork(description);
+    console.log("ARTWORK_IMAGE_URL)", artworkImageUrl);
 
     const response = await fetch(artworkImageUrl);
     const artworkBlob = await response.blob();
@@ -76,13 +78,14 @@ export default async function handler(
       });
     }
 
-    await sendTweetWithMedia(
+    const tweetData = await sendTweetWithMedia(
       `Hey #${city.replace(
         "-",
         ""
       )}! I've created this #AI generated piece of artwork based on what's currently trending in your area. I call it "${description}" Created with #openai #dalle.`,
       artworkBlob
     );
+    console.log("TWEET_DATA", tweetData);
 
     return res.status(201).json({ data: artwork });
   } catch (error: any) {
