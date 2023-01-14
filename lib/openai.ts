@@ -11,8 +11,8 @@ const openai = new OpenAIApi(configuration);
 export async function createArtworkDescription(
   hashtags: Artwork["hashtags"]
 ): Promise<string> {
-  const max_tokens = 50;
-  const request = `Create a single, complete sentence story in ${max_tokens} characters or less, using five randomly chosen words or phrases from the following list: `;
+  const max_tokens = 25;
+  const request = `Create a single, complete sentence in no more than ${max_tokens} tokens, using five randomly chosen words or phrases from the following list: `;
 
   const inputWords = hashtags.reduce((acc, hashtag) => {
     const word = toLowerSpaceCase(hashtag);
