@@ -1,0 +1,13 @@
+name: new-york-city-cron
+on:
+  schedule:
+    - cron: '0 17 * * *'
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call artwork API route
+        run: |
+          curl --request POST \
+          --url 'https://reportaige.com/api/artwork/new-york-city' \
+          --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
