@@ -1,0 +1,13 @@
+name: cape-town-cron
+on:
+  schedule:
+    - cron: '0 10 * * *'
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call artwork API route
+        run: |
+          curl --request POST \
+          --url 'https://reportaige.com/api/artwork/cape-town' \
+          --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
