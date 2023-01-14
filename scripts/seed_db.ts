@@ -16,7 +16,7 @@ import { fetchCollection } from "@/utils/api";
         await fetch(`http://localhost:3000/api/artwork/${city}`, {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${process.env.API_KEY}`,
+            Authorization: `Bearer ${process.env.API_SECRET_KEY}`,
           },
         });
         console.log(`Seeded ${city} artwork!`);
