@@ -77,10 +77,10 @@ export default async function handler(
     }
 
     await sendTweetWithMedia(
-      `Here's a new piece of AI generated art for trending topics in #${city.replace(
+      `Hey #${city.replace(
         "-",
         ""
-      )}! This piece is titled: "${description}"`,
+      )}! I've created this #AI generated piece of artwork based on what's currently trending in your area. I call it "${description}" Created with #openai #dalle.`,
       artworkBlob
     );
 
