@@ -44,13 +44,13 @@ export default async function handler(
     const artworkImageUrl = await createArtwork(description);
 
     const response = await fetch(artworkImageUrl);
-    const blob = await response.blob();
+    const artworkBlob = await response.blob();
 
     // TODO: Fix error handling of uploadBlob
     // (Currently consoles error but still creates artwork document)
 
     const imgFilename = `${city}-${Date.now()}.jpeg`;
-    await uploadBlob(blob, imgFilename);
+    await uploadBlob(artworkBlob, imgFilename);
 
     const artwork: Artwork = {
       cityId: cityInfo._id,
@@ -68,14 +68,15 @@ export default async function handler(
       await fetch(process.env.VERCEL_DEPLOY_HOOK_URL!, {
         method: "POST",
       });
-
-      await sendTweetWithMedia(
-        `Here's a new piece of AI generated art for trending topics in ${toTitleCase(
-          city
-        )}! I've titled this piece: "${description}"`,
-        blob
-      );
     }
+
+    await sendTweetWithMedia(
+      `Here's a new piece of AI generated art for trending topics in #${city.replace(
+        "-",
+        ""
+      )}! This piece is titled: "${description}"`,
+      artworkBlob
+    );
 
     return res.status(201).json({ data: artwork });
   } catch (error: any) {

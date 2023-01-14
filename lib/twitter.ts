@@ -1,7 +1,23 @@
-import { FormData } from "formdata-node";
+import Oauth from "oauth";
 
 const twitterApiUrl = "https://api.twitter.com/1.1/";
+const twitterUploadUrl = "https://upload.twitter.com/1.1/";
+
 const twitterBearerToken = process.env.TWITTER_BEARER_TOKEN!;
+const twitterApiKey = process.env.TWITTER_API_KEY!;
+const twitterApiKeySecret = process.env.TWITTER_API_KEY_SECRET!;
+const twitterAccessToken = process.env.TWITTER_ACCESS_TOKEN!;
+const twitterAccessTokenSecret = process.env.TWITTER_ACCESS_TOKEN_SECRET!;
+
+const oauth = new Oauth.OAuth(
+  "https://api.twitter.com/oauth/request_token",
+  "https://api.twitter.com/oauth/access_token",
+  twitterApiKey,
+  twitterApiKeySecret,
+  "1.0A",
+  null,
+  "HMAC-SHA1"
+);
 
 export type Trend = {
   name: string;
@@ -62,42 +78,64 @@ export function processTrends(trends: Trend[]) {
 
 export async function sendTweetWithMedia(text: string, image: Blob) {
   try {
-    const formData = new FormData();
-    formData.append("media", image);
+    const arrayBuffer = await image.arrayBuffer();
+    const base64Image = Buffer.from(arrayBuffer).toString("base64");
 
-    const response = await fetch(
-      `${twitterApiUrl}/media/upload.json?media_category=tweet_image`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${twitterBearerToken}`,
-          "Content-Type": "multipart/form-data",
+    const body = {
+      media_data: base64Image,
+    };
+
+    const uploadResponse = (await new Promise((resolve, reject) => {
+      oauth.post(
+        `${twitterUploadUrl}/media/upload.json?media_category=tweet_image`,
+        twitterAccessToken,
+        twitterAccessTokenSecret,
+        body,
+        "application/x-www-form-urlencoded",
+        (error, data) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(data as string);
+          }
+        }
+      );
+    })) as string;
+
+    const uploadData = JSON.parse(uploadResponse);
+
+    if (uploadData.errors) {
+      throw new Error(uploadData.errors[0].message);
+    }
+    const mediaId = uploadData?.media_id_string;
+
+    const tweetResponse = (await new Promise((resolve, reject) => {
+      oauth.post(
+        `${twitterApiUrl}/statuses/update.json`,
+        twitterAccessToken,
+        twitterAccessTokenSecret,
+        {
+          status: text,
+          media_ids: mediaId,
         },
-        // @ts-ignore
-        body: formData,
-      }
-    );
+        "application/x-www-form-urlencoded",
+        (error, data) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(data as string);
+          }
+        }
+      );
+    })) as string;
 
-    const data = await response.json();
-    const mediaId = data?.media_id_string;
+    const tweetData = JSON.parse(tweetResponse);
 
-    if (!mediaId) {
-      throw new Error("No media ID found");
+    if (tweetData.errors) {
+      throw new Error(tweetData.errors[0].message);
     }
 
-    const tweetResponse = await fetch(`${twitterApiUrl}/statuses/update.json`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${twitterBearerToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        status: text,
-        media_ids: mediaId,
-      }),
-    });
-
-    return await tweetResponse.json();
+    return tweetData;
   } catch (error: any) {
     console.error(error?.response?.data?.error || error);
     return error?.response?.data?.error?.message || error?.message;
