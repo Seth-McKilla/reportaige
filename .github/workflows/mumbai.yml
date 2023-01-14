@@ -1,0 +1,13 @@
+name: mumbai-cron
+on:
+  schedule:
+    - cron: '30 6 * * *'
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call artwork API route
+        run: |
+          curl --request POST \
+          --url 'https://reportaige.com/api/artwork/mumbai' \
+          --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
