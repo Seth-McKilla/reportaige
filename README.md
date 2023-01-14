@@ -28,7 +28,7 @@ The overall process for creating these images is as follows:
 2. Generate a single sentence story based on a random trending topics for each city
 3. Aggregate the total number of tweets for each each city (to render weight on the globe)
 4. Create a piece of artwork using the [DALL-E image generation API](https://openai.com/blog/dall-e/)
-5. Rinse and repeat at 12:00pm local time for each city using [Slater](https://tryslater.com) cron jobs
+5. Rinse and repeat at 12:00pm local time for each city using cron jobs
 
 ## Getting started
 
@@ -75,7 +75,7 @@ You should be good to go now. Happy coding 😁
 
 ## Where is the artwork api route being used?
 
-You may have noticed that the api route `/api/artwork` is never called within our NextJS app. This endpoint is hit at 12pm local time for each city using [Slater](https://tryslater.com) cron jobs. Once the api route is hit, a Vercel deploy hook is called to rebuild the application:
+You may have noticed that the api route `/api/artwork` is never called within our NextJS app. This endpoint is hit at 12pm local time for each city using [GitHub action cron jobs](./.github/workflows/). Once the api route is hit, a Vercel deploy hook is called to rebuild the application:
 
 ```tsx
 // pages/api/artwork
