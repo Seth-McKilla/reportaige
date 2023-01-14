@@ -10,7 +10,6 @@ import {
   processTrends,
   sendTweetWithMedia,
 } from "@/lib/twitter";
-import { toTitleCase } from "@/utils/common";
 import { fetchCollection } from "@/utils/api";
 
 type Data = {
