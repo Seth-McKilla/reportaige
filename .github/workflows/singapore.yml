@@ -1,7 +1,7 @@
 name: singapore-cron
 on:
   schedule:
-    - cron: '0 4 * * *'
+    - cron: "0 4 * * *"
 jobs:
   cron:
     runs-on: ubuntu-latest
@@ -9,5 +9,5 @@ jobs:
       - name: Call artwork API route
         run: |
           curl --request POST \
-          --url 'https://reportaige.com/api/artwork/singapore' \
+          --url 'https://www.reportaige.com/api/artwork/singapore' \
           --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
