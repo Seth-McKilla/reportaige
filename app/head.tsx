@@ -5,7 +5,7 @@ export default function Head() {
       <meta content="width=device-width, initial-scale=1" name="viewport" />
       <meta
         name="description"
-        content="AI generated art based on current twitter trends."
+        content="AI generated reportage art based on trending Twitter topics from around the globe."
       />
       <link rel="icon" href="/favicon.ico" />
     </>

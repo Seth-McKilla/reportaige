@@ -14,8 +14,8 @@ export default async function Home() {
           <TwitterFollowButton username="reportaige" size={20} />
         </div>
         <p>
-          AI generated reportage art based on current Twitter trends from around
-          the world.
+          AI generated reportage art based on trending Twitter topics from
+          around the globe.
         </p>
       </div>
       <div className="flex justify-center">
