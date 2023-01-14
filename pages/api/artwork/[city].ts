@@ -26,6 +26,10 @@ export default async function handler(
   if (authorization !== `Bearer ${process.env.API_SECRET_KEY}`) {
     console.log(req.headers.authorization);
     console.log(process.env.API_SECRET_KEY);
+    console.log(
+      "EQUALITY",
+      req.headers.authorization === process.env.API_SECRET_KEY
+    );
     return res.status(401).json({ error: "Unauthorized" });
   }
 
