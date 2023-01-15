@@ -14,7 +14,7 @@ export default function Artwork({ cityWithArtwork }: Props) {
       {cityWithArtwork ? (
         <Image
           src={cityWithArtwork.artwork.imgFilename}
-          alt={cityWithArtwork.artwork.description || "Artwork"}
+          alt={`AI generated artwork for ${cityWithArtwork.name}`}
           fill
           sizes="(max-width: 640px) 385px, 512px"
           style={{
