@@ -25,7 +25,7 @@ This is a Typescript NextJS app that uses [OpenAI's GPT-3 API](https://openai.co
 The overall process for creating these images is as follows:
 
 1. Fetch the top trending topics for each of the designated [cities](./constants/cities.ts)
-2. Generate a single sentence story based on a random trending topics for each city
+2. Limit the number of trends to 10 and filter out any inappropriate trends
 3. Aggregate the total number of tweets for each each city (to render weight on the globe)
 4. Create a piece of artwork using the [DALL-E image generation API](https://openai.com/blog/dall-e/)
 5. Rinse and repeat at 12:00pm local time for each city using cron jobs
@@ -105,7 +105,6 @@ The structure is an array of the following objects (one for each city):
     "_id": "63bf5c4685b772a8cb284234",
     "cityId": "63befd9ee007932fb0a9ec17",
     "imgFilename": "berlin-1673485382080.jpeg",
-    "description": "Jeff Beck protestiert in Southampton für Kelly, Sinan, Rumung, Kohle, Lanz, Klimaterroristen und Luetzerath.",
     "totalTweets": 657522,
     "hashtags": [
       "LOVE YOU ALBA",
