@@ -17,15 +17,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
-    return res.status(405).json({ error: "Method Not Allowed" });
-  }
-
   const { authorization } = req.headers;
 
   if (authorization !== `Bearer ${process.env.API_SECRET_KEY}`) {
     return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    return res.status(405).json({ error: "Method Not Allowed" });
   }
 
   const city = req.query.city as City;
@@ -52,6 +52,7 @@ export default async function handler(
 
     const imgFilename = `${city}-${Date.now()}.jpeg`;
     await uploadBlob(artworkBlob, imgFilename);
+    console.log("SUCCESSFULLY_UPLOADED_ARTWORK");
 
     const artwork: Artwork = {
       cityId: cityInfo._id,
@@ -62,13 +63,13 @@ export default async function handler(
     };
     const artworkCollection = await fetchCollection(clientPromise, "artwork");
     await artworkCollection.insertOne(artwork);
+    console.log("SUCCESSFULLY_CREATED_ARTWORK_DOCUMENT");
 
     if (process.env.NODE_ENV !== "development") {
-      // Redeploy the site to update the artwork
       await fetch(process.env.VERCEL_DEPLOY_HOOK_URL!, {
         method: "POST",
       });
-    }
+      console.log("SUCCESSFULLY_REDEPLOYED_SITE");
 
     await sendTweetWithMedia(
       `🤖 Beep boop, hello #${city.replace(

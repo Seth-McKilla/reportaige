@@ -1,7 +1,7 @@
 name: sao-paulo-cron
 on:
   schedule:
-    - cron: '0 15 * * *'
+    - cron: "0 15 * * *"
 jobs:
   cron:
     runs-on: ubuntu-latest
@@ -9,5 +9,5 @@ jobs:
       - name: Call artwork API route
         run: |
           curl --request POST \
-          --url 'https://reportaige.com/api/artwork/sao-paulo' \
+          --url 'https://www.reportaige.com/api/artwork/sao-paulo' \
           --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
