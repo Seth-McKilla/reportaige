@@ -13,13 +13,11 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-export async function createArtwork(
-  artworkDescription: Artwork["description"]
-): Promise<string> {
+export async function createArtwork(hashtagsString: string): Promise<string> {
   try {
     const prompt = `Create a ${getRandomArrayItem(
       illustrationStyles
-    )} type piece of artwork based on the following list of words and phrases: ${artworkDescription}`;
+    )} type piece of artwork based on the following list of words and phrases: ${hashtagsString}`;
 
     const response = await openai.createImage({
       prompt,

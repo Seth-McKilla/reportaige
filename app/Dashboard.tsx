@@ -32,9 +32,19 @@ export default function Dashboard({ citiesWithArtwork }: Props) {
       <div className="flex flex-col items-center justify-center m-4">
         <Artwork cityWithArtwork={cityWithArtwork} />
         {cityWithArtwork && (
-          <p className="mt-4 text-center max-w-[512px]">
-            {cityWithArtwork.artwork.description}
-          </p>
+          <div className="flex flex-wrap items-center justify-center max-w-[512px]">
+            {cityWithArtwork.artwork.hashtags.map((hashtag) => (
+              <a
+                key={hashtag}
+                href={`https://twitter.com/hashtag/${hashtag}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block px-2 py-1 mx-1 mt-2 text-sm font-bold text-white bg-blue-500 rounded-full"
+              >
+                {`#${hashtag}`}
+              </a>
+            ))}
+          </div>
         )}
       </div>
     </main>
