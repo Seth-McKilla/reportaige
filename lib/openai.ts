@@ -17,7 +17,7 @@ export async function createArtwork(hashtagsString: string): Promise<string> {
   try {
     const prompt = `Create a ${getRandomArrayItem(
       illustrationStyles
-    )} type piece of artwork based on the following list of words and phrases: ${hashtagsString}`;
+    )} type piece of a scene based on the following topics: ${hashtagsString}`;
 
     const response = await openai.createImage({
       prompt,
