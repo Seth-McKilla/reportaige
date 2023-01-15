@@ -19,3 +19,7 @@ export function toLowerSpaceCase(str: string) {
 export function getRandomArrayItem(arr: any[]) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
+
+export function removeSpaces(str: string) {
+  return str.trim().replace(/ /g, "");
+}

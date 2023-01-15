@@ -1,44 +1,17 @@
 import { Configuration, OpenAIApi } from "openai";
 
 import illustrationStyles from "@/constants/illustrationStyles";
-import { getRandomArrayItem, toLowerSpaceCase } from "@/utils/common";
+import type { Trend } from "@/lib/twitter";
+import {
+  getRandomArrayItem,
+  toLowerSpaceCase,
+  removeSpaces,
+} from "@/utils/common";
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY!,
 });
 const openai = new OpenAIApi(configuration);
-
-export async function createArtworkDescription(
-  hashtags: Artwork["hashtags"]
-): Promise<string> {
-  const max_tokens = 50;
-  const request = `Create a single, complete sentence story in ${max_tokens} characters or less, using five randomly chosen words or phrases from the following list: `;
-
-  const inputWords = hashtags.reduce((acc, hashtag) => {
-    const word = toLowerSpaceCase(hashtag);
-    return `${acc}, ${word}`;
-  }, "");
-
-  // Moderation categories according to: https://beta.openai.com/docs/api-reference/moderations
-  const disclaimer =
-    ". The story should not include any of the following categories: hate, hate/threatening, self-harm, sexual, sexual/minors, violence, violence/graphic, or similar.";
-
-  const prompt = request + inputWords + disclaimer;
-
-  try {
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt,
-      temperature: 0,
-      max_tokens,
-    });
-    const description = response.data.choices[0].text || "";
-    return description.trim();
-  } catch (error: any) {
-    console.error(error?.response?.data?.error || error);
-    return error?.response?.data?.error?.message || error?.message;
-  }
-}
 
 export async function createArtwork(
   artworkDescription: Artwork["description"]
@@ -46,7 +19,7 @@ export async function createArtwork(
   try {
     const prompt = `Create a ${getRandomArrayItem(
       illustrationStyles
-    )} type piece of artwork of the following scene. ${artworkDescription}`;
+    )} type piece of artwork based on the following list of words and phrases: ${artworkDescription}`;
 
     const response = await openai.createImage({
       prompt,
@@ -54,6 +27,48 @@ export async function createArtwork(
       size: "512x512",
     });
     return response.data.data[0].url || "";
+  } catch (error: any) {
+    console.error(error?.response?.data?.error || error);
+    return error?.response?.data?.error?.message || error?.message;
+  }
+}
+
+export async function processTrends(trends: Trend[]) {
+  try {
+    let totalTweets = 0;
+    let hashtags: string[] = [];
+
+    trends.forEach((trend) => {
+      if (trend.tweet_volume) totalTweets += trend.tweet_volume;
+      hashtags.push(trend.name.replace("#", ""));
+    });
+
+    const hashtagsString = hashtags.reduce((acc, hashtag) => {
+      const word = toLowerSpaceCase(hashtag);
+      return `${acc}, ${word}`;
+    }, "");
+
+    const prompt = `Remove any inappropriate words or phrases from the following list of words and phrases: ${hashtagsString}`;
+
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt,
+      temperature: 0,
+      max_tokens: 25,
+    });
+    const description = response.data.choices[0].text || "";
+
+    hashtags = description
+      .split(",")
+      .map((hashtag) => {
+        return `${removeSpaces(hashtag)}`;
+      })
+      .filter((hashtag) => hashtag.length > 0);
+
+    return {
+      totalTweets,
+      hashtags,
+    };
   } catch (error: any) {
     console.error(error?.response?.data?.error || error);
     return error?.response?.data?.error?.message || error?.message;

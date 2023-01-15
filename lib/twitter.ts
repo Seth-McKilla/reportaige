@@ -61,21 +61,6 @@ export async function getTrendingTopics(
   }
 }
 
-export function processTrends(trends: Trend[]) {
-  let totalTweets = 0;
-  let hashtags: string[] = [];
-
-  trends.forEach((trend) => {
-    if (trend.tweet_volume) totalTweets += trend.tweet_volume;
-    hashtags.push(trend.name.replace("#", ""));
-  });
-
-  return {
-    totalTweets,
-    hashtags,
-  };
-}
-
 export async function sendTweetWithMedia(text: string, image: Blob) {
   try {
     const arrayBuffer = await image.arrayBuffer();

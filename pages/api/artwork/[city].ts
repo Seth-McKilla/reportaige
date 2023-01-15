@@ -4,12 +4,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import cities from "@/constants/cities";
 import { uploadBlob } from "@/lib/gcp";
 import clientPromise from "@/lib/mongodb";
-import { createArtwork, createArtworkDescription } from "@/lib/openai";
-import {
-  getTrendingTopics,
-  processTrends,
-  sendTweetWithMedia,
-} from "@/lib/twitter";
+import { createArtwork, processTrends } from "@/lib/openai";
+import { getTrendingTopics, sendTweetWithMedia } from "@/lib/twitter";
 import { fetchCollection } from "@/utils/api";
 
 type Data = {
@@ -44,10 +40,9 @@ export default async function handler(
     })) as CityInfo & { _id: ObjectId };
 
     const trendingTopics = await getTrendingTopics(cityInfo.twitterLocationId);
-    const { totalTweets, hashtags } = processTrends(trendingTopics);
+    const { totalTweets, hashtags } = await processTrends(trendingTopics);
 
-    const description = await createArtworkDescription(hashtags);
-    const artworkImageUrl = await createArtwork(description);
+    const artworkImageUrl = await createArtwork(hashtags.join(", "));
 
     const response = await fetch(artworkImageUrl);
     const artworkBlob = await response.blob();
@@ -61,7 +56,6 @@ export default async function handler(
     const artwork: Artwork = {
       cityId: cityInfo._id,
       imgFilename,
-      description,
       totalTweets,
       hashtags,
       createdAt: new Date(),
@@ -77,10 +71,12 @@ export default async function handler(
     }
 
     await sendTweetWithMedia(
-      `Here's a new piece of AI generated art for trending topics in #${city.replace(
+      `🤖 Beep boop, hello #${city.replace(
         "-",
         ""
-      )}! This piece is titled: "${description}"`,
+      )}. I, a mere machine, created this masterpiece inspired by current human trends ${hashtags.join(
+        "# "
+      )}`,
       artworkBlob
     );
 

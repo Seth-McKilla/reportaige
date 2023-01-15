@@ -1,7 +1,7 @@
 type Artwork = {
   cityId: ObjectId;
   imgFilename: string;
-  description: string;
+  description?: string;
   totalTweets: number;
   hashtags: string[];
   createdAt: Date;
