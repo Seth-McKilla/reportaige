@@ -78,7 +78,7 @@ export default async function handler(
           "-",
           ""
         )}. I, a mere machine, created this masterpiece inspired by your current human trends ${hashtags.join(
-          "# "
+          " #"
         )}`,
         artworkBlob
       );
