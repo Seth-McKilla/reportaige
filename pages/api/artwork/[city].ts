@@ -41,8 +41,10 @@ export default async function handler(
 
     const trendingTopics = await getTrendingTopics(cityInfo.twitterLocationId);
     const { totalTweets, hashtags } = await processTrends(trendingTopics);
+    console.log("SUCCESSFULLY_PROCESSED_TRENDS");
 
     const artworkImageUrl = await createArtwork(hashtags.join(", "));
+    console.log("SUCCESSFULLY_CREATED_ARTWORK");
 
     const response = await fetch(artworkImageUrl);
     const artworkBlob = await response.blob();
@@ -71,15 +73,16 @@ export default async function handler(
       });
       console.log("SUCCESSFULLY_REDEPLOYED_SITE");
 
-    await sendTweetWithMedia(
-      `🤖 Beep boop, hello #${city.replace(
-        "-",
-        ""
-      )}. I, a mere machine, created this masterpiece inspired by current human trends ${hashtags.join(
-        "# "
-      )}`,
-      artworkBlob
-    );
+      await sendTweetWithMedia(
+        `🤖 Beep boop, hello #${city.replace(
+          "-",
+          ""
+        )}. I, a mere machine, created this masterpiece inspired by current human trends ${hashtags.join(
+          "# "
+        )}`,
+        artworkBlob
+      );
+    }
 
     return res.status(201).json({ data: artwork });
   } catch (error: any) {
