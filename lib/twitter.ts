@@ -46,7 +46,7 @@ export async function getTrendingTopics(
       throw new Error("No trends found");
     }
 
-    // Sort by tweet volume and filter out any trends that don't have a tweet volume
+    // Sort by tweet volume and filter out any trends that don't have a tweet volume and limit to 10
     return trends
       .sort((a, b) => b.tweet_volume - a.tweet_volume)
       .filter((trend) => trend.tweet_volume)
@@ -54,7 +54,8 @@ export async function getTrendingTopics(
         name,
         tweet_volume,
         url,
-      })) as Trend[];
+      }))
+      .slice(0, 9) as Trend[];
   } catch (error: any) {
     console.error(error?.response?.data?.error || error);
     return error?.response?.data?.error?.message || error?.message;

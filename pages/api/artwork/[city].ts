@@ -74,10 +74,10 @@ export default async function handler(
       console.log("SUCCESSFULLY_REDEPLOYED_SITE");
 
       await sendTweetWithMedia(
-        `🤖 Beep boop, hello #${city.replace(
+        `🤖 Beep boop, greetings #${city.replace(
           "-",
           ""
-        )}. I, a mere machine, created this masterpiece inspired by current human trends ${hashtags.join(
+        )}. I, a mere machine, created this masterpiece inspired by your current human trends ${hashtags.join(
           "# "
         )}`,
         artworkBlob
