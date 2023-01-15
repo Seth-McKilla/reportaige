@@ -77,7 +77,7 @@ export default async function handler(
         `🤖 Beep boop, greetings #${city.replace(
           "-",
           ""
-        )}. I, a mere machine, created this masterpiece inspired by your current human trends ${hashtags.join(
+        )}. I, a mere machine, created this masterpiece inspired by your current human trends #${hashtags.join(
           " #"
         )}`,
         artworkBlob
